@@ -27,6 +27,7 @@ function M.apply_to_config(config)
 	config.color_scheme = "Tokyo Night Moon"
 	config.window_background_opacity = 0.95
 	config.win32_system_backdrop = "Acrylic"
+	-- Keep the rainy Tokyo artwork moving subtly with terminal scrollback.
 	config.background = {
 		{
 			source = { File = wezterm.config_dir .. "/assets/tokyo-night-parallax.png" },
