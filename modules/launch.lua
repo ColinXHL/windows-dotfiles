@@ -2,6 +2,18 @@ local wezterm = require("wezterm")
 
 local M = {}
 
+wezterm.on("gui-startup", function(cmd)
+	local _, _, mux_window = wezterm.mux.spawn_window(cmd or {})
+	local window = mux_window:gui_window()
+	local screen = wezterm.gui.screens().active
+	local dimensions = window:get_dimensions()
+
+	window:set_position(
+		math.floor(screen.x + (screen.width - dimensions.pixel_width) / 2),
+		math.floor(screen.y + (screen.height - dimensions.pixel_height) / 2)
+	)
+end)
+
 function M.apply_to_config(config)
 	-- WezTerm 启动时直接运行 Nushell，并从用户主目录启动。
 	config.default_prog = { "nu.exe" }
