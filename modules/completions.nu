@@ -2,7 +2,9 @@ $env.config.completions.algorithm = "fuzzy"
 $env.config.completions.quick = false
 $env.config.completions.partial = false
 
-$env.config.menus ++= [{
+$env.config.menus = ($env.config.menus | where {|menu|
+    $menu.name? != "ide_completion_menu"
+} | append {
     name: ide_completion_menu
     only_buffer_difference: false
     marker: "| "
@@ -28,9 +30,11 @@ $env.config.menus ++= [{
         match_text: { attr: u }
         selected_match_text: { attr: ur }
     }
-}]
+})
 
-$env.config.keybindings ++= [{
+$env.config.keybindings = ($env.config.keybindings | where {|binding|
+    $binding.name? != "ide_completion_tab"
+} | append {
     name: ide_completion_tab
     modifier: none
     keycode: tab
@@ -41,4 +45,4 @@ $env.config.keybindings ++= [{
             { send: enter }
         ]
     }
-}]
+})

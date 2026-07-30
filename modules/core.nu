@@ -3,14 +3,13 @@
 $env.config.show_banner = false
 
 if ($env.SHLVL? | default 1) == 1 {
-    ^fastfetch
+    ^fastfetch --config ~/.config/nushell/fastfetch.jsonc
 }
 
 $env.config.buffer_editor = "nvim"
 $env.EDITOR = "nvim"
 $env.VISUAL = "nvim"
 
-$env.config.use_kitty_protocol = true
 $env.config.shell_integration.osc7 = true
 
 # History data remains outside this repository.

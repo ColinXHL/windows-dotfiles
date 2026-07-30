@@ -26,8 +26,9 @@ function Set-FileLink {
 
     $backup = $null
 
-    if (Test-Path -LiteralPath $Path) {
-        $item = Get-Item -LiteralPath $Path -Force
+    $item = Get-Item -LiteralPath $Path -Force -ErrorAction SilentlyContinue
+
+    if ($null -ne $item) {
         $currentTarget = @($item.Target) | Select-Object -First 1
 
         if ($item.LinkType -eq "SymbolicLink" -and $currentTarget -eq $Target) {
