@@ -25,7 +25,7 @@ function M.apply_to_config(config)
 	-- }
 
 	config.color_scheme = "Tokyo Night Moon"
-	config.window_background_opacity = 0.35
+	config.window_background_opacity = 0.65
 	config.win32_system_backdrop = "Disable"
 	-- Keep the rainy Tokyo artwork moving subtly with terminal scrollback.
 	config.background = {
