@@ -7,7 +7,7 @@
 ## 特性
 
 - Nushell 作为默认 Shell
-- Tokyo Night Moon 配色与 Acrylic 背景
+- Tokyo Night Moon 配色、Acrylic 与纵向视差背景
 - 0xProto Nerd Font Mono 与中英文、Emoji Fallback
 - `Ctrl+A` Leader 和模式化 Pane 操作
 - Vim 风格 Copy/Search Mode
@@ -124,7 +124,7 @@ pwsh --version
 ## 自定义
 
 - 修改默认 Shell 或 Launcher：`modules/launch.lua`
-- 修改字体、主题或透明度：`modules/appearance.lua`
+- 修改字体、主题、背景图或透明度：`modules/appearance.lua`
 - 修改鼠标行为：`modules/mouse.lua`
 - 修改快捷键和模式：`modules/bindings.lua`
 - 修改模式状态提示：`modules/status.lua`

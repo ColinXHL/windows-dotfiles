@@ -17,6 +17,8 @@ local opaque_processes = {
 }
 
 local process_backgrounds = {
+	["nvim"] = "#222436",
+	["nvim.exe"] = "#222436",
 	["opencode"] = "#0a0a0a",
 	["opencode.exe"] = "#0a0a0a",
 }

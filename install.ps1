@@ -103,6 +103,10 @@ Get-ChildItem -LiteralPath (Join-Path $weztermSource "modules") -Filter "*.lua" 
         -Target $_.FullName
 }
 
+Set-ConfigTree `
+    -Source (Join-Path $weztermSource "assets") `
+    -Destination (Join-Path $weztermConfig "assets")
+
 $nushellConfig = Join-Path $HOME ".config\nushell"
 $nushellSource = Join-Path $repoRoot "nushell"
 

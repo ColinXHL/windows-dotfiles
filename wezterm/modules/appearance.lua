@@ -25,8 +25,31 @@ function M.apply_to_config(config)
 	-- }
 
 	config.color_scheme = "Tokyo Night Moon"
-	config.window_background_opacity = 0.30
+	config.window_background_opacity = 0.92
 	config.win32_system_backdrop = "Acrylic"
+	config.background = {
+		{
+			source = { File = wezterm.config_dir .. "/assets/forest-parallax.jpg" },
+			attachment = { Parallax = 0.15 },
+			repeat_x = "NoRepeat",
+			repeat_y = "NoRepeat",
+			horizontal_align = "Center",
+			vertical_align = "Top",
+			width = "Cover",
+			height = "Cover",
+			opacity = 0.85,
+			hsb = {
+				saturation = 0.90,
+				brightness = 0.65,
+			},
+		},
+		{
+			source = { Color = "#07100c" },
+			width = "100%",
+			height = "100%",
+			opacity = 0.20,
+		},
+	}
 
 	config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 	config.window_padding = {
