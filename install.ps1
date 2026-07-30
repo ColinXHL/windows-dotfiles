@@ -57,13 +57,51 @@ function Set-ConfigLink {
     }
 }
 
-Set-ConfigLink `
-    -Path (Join-Path $HOME ".config\wezterm") `
-    -Target (Join-Path $repoRoot "wezterm")
+function Move-LegacyGitMetadata {
+    param(
+        [Parameter(Mandatory)]
+        [string] $ConfigPath
+    )
+
+    $gitPath = Join-Path $ConfigPath ".git"
+    if (-not (Test-Path -LiteralPath $gitPath)) {
+        return
+    }
+
+    $backup = "$ConfigPath.pre-dotfiles-$stamp.git"
+    Move-Item -LiteralPath $gitPath -Destination $backup
+    Write-Host "Archived legacy Git metadata: $gitPath -> $backup"
+}
+
+$weztermConfig = Join-Path $HOME ".config\wezterm"
+$weztermSource = Join-Path $repoRoot "wezterm"
 
 Set-ConfigLink `
-    -Path (Join-Path $HOME ".config\nushell") `
-    -Target (Join-Path $repoRoot "nushell")
+    -Path (Join-Path $weztermConfig "wezterm.lua") `
+    -Target (Join-Path $weztermSource "wezterm.lua")
+
+Get-ChildItem -LiteralPath (Join-Path $weztermSource "modules") -Filter "*.lua" -File | ForEach-Object {
+    Set-ConfigLink `
+        -Path (Join-Path $weztermConfig "modules\$($_.Name)") `
+        -Target $_.FullName
+}
+
+$nushellConfig = Join-Path $HOME ".config\nushell"
+$nushellSource = Join-Path $repoRoot "nushell"
+
+Set-ConfigLink `
+    -Path (Join-Path $nushellConfig "config.nu") `
+    -Target (Join-Path $nushellSource "config.nu")
+
+Set-ConfigLink `
+    -Path (Join-Path $nushellConfig "fastfetch.jsonc") `
+    -Target (Join-Path $nushellSource "fastfetch.jsonc")
+
+Get-ChildItem -LiteralPath (Join-Path $nushellSource "modules") -Filter "*.nu" -File | ForEach-Object {
+    Set-ConfigLink `
+        -Path (Join-Path $nushellConfig "modules\$($_.Name)") `
+        -Target $_.FullName
+}
 
 Set-ConfigLink `
     -Path (Join-Path $HOME ".config\starship.toml") `
@@ -80,6 +118,9 @@ Set-ConfigLink `
 Set-ConfigLink `
     -Path (Join-Path $HOME ".config\opencode\tui.json") `
     -Target (Join-Path $repoRoot "opencode\tui.json")
+
+Move-LegacyGitMetadata -ConfigPath $weztermConfig
+Move-LegacyGitMetadata -ConfigPath $nushellConfig
 
 if (-not $SkipNilesoft) {
     $nilesoftTarget = Join-Path $env:ProgramFiles "Nilesoft Shell"

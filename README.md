@@ -27,17 +27,20 @@ pwsh -NoProfile -File "$HOME\windows-dotfiles\install.ps1"
 The installer creates these symbolic links:
 
 ```text
-~/.config/wezterm                 -> <repo>/wezterm
-~/.config/nushell                 -> <repo>/nushell
+~/.config/wezterm/wezterm.lua     -> <repo>/wezterm/wezterm.lua
+~/.config/wezterm/modules/*.lua   -> <repo>/wezterm/modules/*.lua
+~/.config/nushell/config.nu       -> <repo>/nushell/config.nu
+~/.config/nushell/modules/*.nu    -> <repo>/nushell/modules/*.nu
+~/.config/nushell/fastfetch.jsonc -> <repo>/nushell/fastfetch.jsonc
 ~/.config/starship.toml           -> <repo>/nushell/starship.toml
 %APPDATA%/nushell/config.nu       -> <repo>/nushell/config.nu
 ~/.config/opencode/opencode.jsonc -> <repo>/opencode/opencode.jsonc
 ~/.config/opencode/tui.json       -> <repo>/opencode/tui.json
 ```
 
-Existing files and directories are moved to timestamped backups before links
-are created. Windows Developer Mode or an elevated terminal is required to
-create symbolic links.
+Existing files are moved to timestamped backups before links are created.
+Windows Developer Mode or an elevated terminal is required to create symbolic
+links. File-level links allow the installer to run while WezTerm is open.
 
 Nilesoft Shell is installed by copying the tracked files into its directory in
 `Program Files` and restarting the application. This step requires elevation.

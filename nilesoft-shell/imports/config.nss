@@ -1,7 +1,7 @@
 // Portable application paths. Edit only this file when apps use custom locations.
 $code_exe='@user.localappdata\Programs\Microsoft VS Code\Code.exe'
 $nvim_exe='@sys.prog\Neovim\bin\nvim.exe'
-$terminal_exe='@user.localappdata\Microsoft\WindowsApps\wt.exe'
+$terminal_exe='@sys.prog\WezTerm\wezterm-gui.exe'
 $everything_exe='@sys.prog\Everything\Everything.exe'
 $peazip_exe='@sys.prog\PeaZip\PEAZIP.EXE'
 

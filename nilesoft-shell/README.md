@@ -25,7 +25,7 @@
 | --- | --- |
 | Visual Studio Code | `%LocalAppData%\Programs\Microsoft VS Code\Code.exe` |
 | Neovim | `%ProgramFiles%\Neovim\bin\nvim.exe` |
-| Windows Terminal | `%LocalAppData%\Microsoft\WindowsApps\wt.exe` |
+| WezTerm | `%ProgramFiles%\WezTerm\wezterm-gui.exe` |
 | Everything | `%ProgramFiles%\Everything\Everything.exe` |
 | PeaZip | `%ProgramFiles%\PeaZip\PEAZIP.EXE` |
 
