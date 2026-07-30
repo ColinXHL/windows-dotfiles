@@ -1,0 +1,120 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+command_timeout = 1200
+
+format = """
+$os\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$nodejs\
+$python\
+$rust\
+$golang\
+$lua\
+$package\
+$fill\
+$cmd_duration\
+$time\
+$line_break\
+$character"""
+
+# =========================================================
+# 填充
+# =========================================================
+
+[fill]
+symbol = " "
+
+# =========================================================
+# 系统
+# =========================================================
+
+[os]
+disabled = false
+style = "blue"
+
+[os.symbols]
+Windows = " "
+
+# =========================================================
+# 用户和远程主机
+# =========================================================
+
+[username]
+format = "[$user]($style)"
+
+[hostname]
+style = "bold green"
+format = "[@$hostname]($style) "
+
+# =========================================================
+# 当前目录
+# =========================================================
+
+[directory]
+format = " [$path]($style)[$read_only]($read_only_style) "
+truncation_length = 4
+truncate_to_repo = false
+read_only = " 󰌾"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Desktop" = " "
+
+# =========================================================
+# Git
+# =========================================================
+
+[git_branch]
+symbol = " "
+format = "[$symbol$branch]($style) "
+
+[git_status]
+format = "([$all_status$ahead_behind]($style) )"
+
+# =========================================================
+# 开发环境
+# 只有进入对应项目时才显示
+# =========================================================
+
+[nodejs]
+format = "[$symbol($version)]($style) "
+
+[python]
+symbol = " "
+format = "[$symbol($version)]($style) "
+
+[rust]
+symbol = " "
+format = "[$symbol($version)]($style) "
+
+[golang]
+symbol = " "
+format = "[$symbol($version)]($style) "
+
+[lua]
+symbol = " "
+format = "[$symbol($version)]($style) "
+
+[package]
+symbol = "󰏗 "
+format = "[$symbol$version]($style) "
+
+# =========================================================
+# 命令执行时间和时钟
+# =========================================================
+
+[cmd_duration]
+min_time = 500
+format = "[󱎫 $duration]($style) "
+
+[time]
+disabled = false
+time_format = "%H:%M"
+style = "dimmed white"
+format = "[$time]($style)"
