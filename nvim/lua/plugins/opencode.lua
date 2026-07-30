@@ -142,8 +142,7 @@ return {
       -- 打开/隐藏 OpenCode
       -----------------------------------------------------------------------
 
-      -- Windows Terminal Preview 1.25+ 可通过 Kitty Keyboard Protocol
-      -- 正确发送 Ctrl+.
+      -- WezTerm uses the Kitty keyboard protocol to send Ctrl+. correctly.
       vim.keymap.set({ "n", "t" }, "<C-.>", toggle_terminal, { desc = "Toggle OpenCode" })
 
       -- 备用快捷键：Space o t

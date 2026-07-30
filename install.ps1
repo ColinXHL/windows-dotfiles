@@ -57,6 +57,23 @@ function Set-ConfigLink {
     }
 }
 
+function Set-ConfigTree {
+    param(
+        [Parameter(Mandatory)]
+        [string] $Source,
+
+        [Parameter(Mandatory)]
+        [string] $Destination
+    )
+
+    Get-ChildItem -LiteralPath $Source -Recurse -File | ForEach-Object {
+        $relativePath = [IO.Path]::GetRelativePath($Source, $_.FullName)
+        Set-ConfigLink `
+            -Path (Join-Path $Destination $relativePath) `
+            -Target $_.FullName
+    }
+}
+
 function Move-LegacyGitMetadata {
     param(
         [Parameter(Mandatory)]
@@ -111,6 +128,23 @@ Set-ConfigLink `
     -Path (Join-Path $env:APPDATA "nushell\config.nu") `
     -Target (Join-Path $repoRoot "nushell\config.nu")
 
+Set-ConfigTree `
+    -Source (Join-Path $repoRoot "nvim") `
+    -Destination (Join-Path $env:LOCALAPPDATA "nvim")
+
+$gitFile = Join-Path $env:ProgramFiles "Git\usr\bin\file.exe"
+if (Test-Path -LiteralPath $gitFile) {
+    $env:YAZI_FILE_ONE = $gitFile
+    [Environment]::SetEnvironmentVariable("YAZI_FILE_ONE", $gitFile, "User")
+    Write-Host "Configured YAZI_FILE_ONE: $gitFile"
+} else {
+    Write-Warning "Git for Windows file.exe was not found at: $gitFile"
+}
+
+Set-ConfigTree `
+    -Source (Join-Path $repoRoot "yazi") `
+    -Destination (Join-Path $env:APPDATA "yazi\config")
+
 Set-ConfigLink `
     -Path (Join-Path $HOME ".config\opencode\opencode.jsonc") `
     -Target (Join-Path $repoRoot "opencode\opencode.jsonc")
@@ -119,8 +153,20 @@ Set-ConfigLink `
     -Path (Join-Path $HOME ".config\opencode\tui.json") `
     -Target (Join-Path $repoRoot "opencode\tui.json")
 
+Set-ConfigLink `
+    -Path (Join-Path $HOME ".glzr\glazewm\config.yaml") `
+    -Target (Join-Path $repoRoot "glzr\glazewm\config.yaml")
+
+Set-ConfigLink `
+    -Path (Join-Path $HOME ".glzr\zebar\settings.json") `
+    -Target (Join-Path $repoRoot "glzr\zebar\settings.json")
+
 Move-LegacyGitMetadata -ConfigPath $weztermConfig
 Move-LegacyGitMetadata -ConfigPath $nushellConfig
+
+if (Get-Command "ya" -ErrorAction SilentlyContinue) {
+    & ya pkg install
+}
 
 if (-not $SkipNilesoft) {
     $nilesoftTarget = Join-Path $env:ProgramFiles "Nilesoft Shell"

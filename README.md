@@ -8,7 +8,10 @@ Personal Windows configuration managed from one repository.
 | --- | --- |
 | `wezterm/` | WezTerm appearance, key bindings, and runtime behavior |
 | `nushell/` | Nushell, Starship, and Fastfetch configuration |
+| `nvim/` | Neovim and LazyVim configuration |
+| `yazi/` | Yazi file manager configuration |
 | `opencode/` | OpenCode application and TUI configuration |
+| `glzr/` | GlazeWM and Zebar configuration |
 | `nilesoft-shell/` | Nilesoft Shell context menu configuration |
 
 The WezTerm, Nushell, and Nilesoft Shell histories were imported from their
@@ -34,8 +37,12 @@ The installer creates these symbolic links:
 ~/.config/nushell/fastfetch.jsonc -> <repo>/nushell/fastfetch.jsonc
 ~/.config/starship.toml           -> <repo>/nushell/starship.toml
 %APPDATA%/nushell/config.nu       -> <repo>/nushell/config.nu
+%LOCALAPPDATA%/nvim/*             -> <repo>/nvim/*
+%APPDATA%/yazi/config/*.toml      -> <repo>/yazi/*.toml
 ~/.config/opencode/opencode.jsonc -> <repo>/opencode/opencode.jsonc
 ~/.config/opencode/tui.json       -> <repo>/opencode/tui.json
+~/.glzr/glazewm/config.yaml       -> <repo>/glzr/glazewm/config.yaml
+~/.glzr/zebar/settings.json       -> <repo>/glzr/zebar/settings.json
 ```
 
 Existing files are moved to timestamped backups before links are created.
@@ -50,4 +57,6 @@ Use `-SkipNilesoft` when only the user-level configurations should be linked.
 
 Generated files, caches, package dependencies, histories, credentials, and API
 keys remain outside this repository. In particular, OpenCode's `node_modules`
-and package metadata stay in `~/.config/opencode`.
+and package metadata stay in `~/.config/opencode`; Yazi flavors and state stay
+in `%APPDATA%/yazi`; and GlazeWM/Zebar logs, downloads, and caches stay in their
+application directories.
