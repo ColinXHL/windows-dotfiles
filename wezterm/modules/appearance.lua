@@ -33,7 +33,7 @@ function M.apply_to_config(config)
 			source = { Color = "#070b18" },
 			width = "100%",
 			height = "100%",
-			opacity = 0.30,
+			opacity = 0.41,
 		},
 		{
 			source = { File = wezterm.config_dir .. "/assets/tokyo-night-parallax.png" },
