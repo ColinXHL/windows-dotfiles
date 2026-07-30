@@ -37,18 +37,21 @@ modify(mode="none" type="back"
 modify(mode="none" type="back"
 	where=!wnd.is_desktop && path.exists(code_exe) && (
 		this.id==id.open_powershell_window_here
+		|| str.contains(this.name, "终端")
 		|| str.contains(this.title, "终端")
 	)
 	pos=indexof("通过 Code 打开") sep="before")
 modify(mode="none" type="back"
 	where=!wnd.is_desktop && !path.exists(code_exe) && path.exists(everything_exe) && (
 		this.id==id.open_powershell_window_here
+		|| str.contains(this.name, "终端")
 		|| str.contains(this.title, "终端")
 	)
 	pos=indexof("Everything") sep="before")
 modify(mode="none" type="back"
 	where=!wnd.is_desktop && !path.exists(code_exe) && !path.exists(everything_exe) && (
 		this.id==id.open_powershell_window_here
+		|| str.contains(this.name, "终端")
 		|| str.contains(this.title, "终端")
 	)
 	pos=indexof("自定义文件夹") sep="before")
@@ -108,21 +111,49 @@ modify(mode="none" type="back"
 modify(mode="none" type="back"
 	where=wnd.is_desktop && path.exists(code_exe) && (
 		this.id==id.open_powershell_window_here
+		|| str.contains(this.name, "终端")
 		|| str.contains(this.title, "终端")
 	)
 	pos=indexof("通过 Code 打开") sep="before")
 modify(mode="none" type="back"
 	where=wnd.is_desktop && !path.exists(code_exe) && path.exists(everything_exe) && (
 		this.id==id.open_powershell_window_here
+		|| str.contains(this.name, "终端")
 		|| str.contains(this.title, "终端")
 	)
 	pos=indexof("Everything") sep="before")
 modify(mode="none" type="back"
 	where=wnd.is_desktop && !path.exists(code_exe) && !path.exists(everything_exe) && (
 		this.id==id.open_powershell_window_here
+		|| str.contains(this.name, "终端")
 		|| str.contains(this.title, "终端")
 	)
 	pos=indexof("显示设置") sep="before")
+// A later modify resets pos even when it only changes sep, so keep both here.
+modify(mode="none" type="back"
+	where=path.exists(code_exe) && (
+		str.contains(this.name, "终端预览")
+		|| str.contains(this.title, "终端预览")
+	)
+	pos=indexof("通过 Code 打开") sep="none")
+modify(mode="none" type="back"
+	where=!path.exists(code_exe) && path.exists(everything_exe) && (
+		str.contains(this.name, "终端预览")
+		|| str.contains(this.title, "终端预览")
+	)
+	pos=indexof("Everything") sep="none")
+modify(mode="none" type="back"
+	where=!wnd.is_desktop && !path.exists(code_exe) && !path.exists(everything_exe) && (
+		str.contains(this.name, "终端预览")
+		|| str.contains(this.title, "终端预览")
+	)
+	pos=indexof("自定义文件夹") sep="none")
+modify(mode="none" type="back"
+	where=wnd.is_desktop && !path.exists(code_exe) && !path.exists(everything_exe) && (
+		str.contains(this.name, "终端预览")
+		|| str.contains(this.title, "终端预览")
+	)
+	pos=indexof("显示设置") sep="none")
 modify(mode="none" type="back"
 	where=wnd.is_desktop && str.contains(this.title, "Everything")
 		&& path.exists(everything_exe) && path.exists(code_exe)
