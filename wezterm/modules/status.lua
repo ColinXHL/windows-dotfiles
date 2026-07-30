@@ -59,6 +59,7 @@ local function update_window_padding(window, pane)
 		and padding.bottom == 0
 	local has_expected_padding = needs_full_bleed == (has_zero_padding == true)
 	local expected_opacity = needs_opaque_background and 1 or nil
+	local expected_text_background_opacity = needs_opaque_background and 1 or nil
 	local expected_background = process_backgrounds[process_name]
 	local overridden_background = overrides.colors and overrides.colors.background or nil
 	local has_background_layer = overrides.background ~= nil
@@ -67,6 +68,7 @@ local function update_window_padding(window, pane)
 	if
 		has_expected_padding
 		and overrides.window_background_opacity == expected_opacity
+		and overrides.text_background_opacity == expected_text_background_opacity
 		and overridden_background == expected_background
 		and has_background_layer == expects_background_layer
 	then
@@ -80,6 +82,7 @@ local function update_window_padding(window, pane)
 		bottom = 0,
 	} or nil
 	overrides.window_background_opacity = expected_opacity
+	overrides.text_background_opacity = expected_text_background_opacity
 	overrides.colors = expected_background and { background = expected_background } or nil
 	overrides.background = expected_background and {
 		{
