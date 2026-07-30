@@ -25,7 +25,7 @@ function M.apply_to_config(config)
 	-- }
 
 	config.color_scheme = "Tokyo Night Moon"
-	config.window_background_opacity = 0.82
+	config.window_background_opacity = 0.35
 	config.win32_system_backdrop = "Acrylic"
 	-- Keep the rainy Tokyo artwork moving subtly with terminal scrollback.
 	config.background = {
@@ -38,7 +38,7 @@ function M.apply_to_config(config)
 			vertical_align = "Top",
 			width = "Cover",
 			height = "Cover",
-			opacity = 0.90,
+			opacity = 0.55,
 			hsb = {
 				saturation = 0.95,
 				brightness = 0.75,
@@ -48,7 +48,7 @@ function M.apply_to_config(config)
 			source = { Color = "#070b18" },
 			width = "100%",
 			height = "100%",
-			opacity = 0.18,
+			opacity = 0.08,
 		},
 	}
 
