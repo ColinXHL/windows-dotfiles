@@ -4,6 +4,7 @@ alias vi = nvim
 alias vim = nvim
 alias nv = nvim
 alias cls = clear
+alias ex = exit
 
 # Expand to editable full commands before execution.
 $env.config.abbreviations = {

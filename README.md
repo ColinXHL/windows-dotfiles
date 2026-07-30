@@ -10,7 +10,7 @@ Windows-first configuration for Nushell running in WezTerm. Validated with Nushe
 - `modules/completions.nu`: fuzzy IDE-style completion menu and Tab behavior
 - `modules/proxy.nu`: default local proxy and `proxy-on`/`proxy-off`
 - `modules/commands.nu`: aliases, Git abbreviations, `mkcd`, and Yazi wrapper
-- `starship.toml`: prompt layout and appearance
+- `starship.toml`: official Tokyo Night preset
 - `install.ps1`: idempotent Windows symbolic-link installer
 
 History databases, plugin registries, backups, and generated vendor scripts are intentionally excluded.
