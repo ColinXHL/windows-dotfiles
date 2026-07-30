@@ -1,0 +1,4 @@
+[[mgr.prepend_keymap]]
+on = ["e"]
+run = "shell --block -- nvim %*"
+desc = "Edit file with nvim"
