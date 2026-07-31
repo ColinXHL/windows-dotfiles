@@ -12,15 +12,11 @@ local full_bleed_processes = {
 local opaque_processes = {
 	["nvim"] = true,
 	["nvim.exe"] = true,
-	["opencode"] = true,
-	["opencode.exe"] = true,
 }
 
 local process_backgrounds = {
-	["nvim"] = "#222436",
-	["nvim.exe"] = "#222436",
-	["opencode"] = "#0a0a0a",
-	["opencode.exe"] = "#0a0a0a",
+	["nvim"] = "#1e1e2e",
+	["nvim.exe"] = "#1e1e2e",
 }
 
 local active_apps = {}

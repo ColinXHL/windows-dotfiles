@@ -33,15 +33,15 @@
 
 ## 安装
 
-先备份现有配置，然后在管理员 PowerShell 中运行：
+在管理员 PowerShell 中运行统一安装器：
 
 ```powershell
-Copy-Item .\shell.nss "C:\Program Files\Nilesoft Shell\shell.nss" -Force
-Copy-Item .\imports\* "C:\Program Files\Nilesoft Shell\imports" -Force
-& "C:\Program Files\Nilesoft Shell\shell.exe" -restart -silent
+pwsh -NoProfile -File "$HOME\windows-dotfiles\install.ps1"
 ```
 
-也可以将文件手动复制到 Nilesoft Shell 安装目录。配置错误会记录在：
+安装器会为 `shell.nss` 和仓库维护的全部 `imports/*.nss` 创建文件级符号链接，然后重启 Nilesoft Shell。不会链接整个 `imports` 目录，因此 Nilesoft 自带的其他模块会原样保留。首次替换的文件会以带时间戳的 `.bak` 名称备份。
+
+`Program Files` 目录需要管理员权限；只安装其他用户级配置时可添加 `-SkipNilesoft`。如果 Nilesoft 更新覆盖了链接，重新运行安装器即可恢复。配置错误会记录在：
 
 ```text
 C:\Program Files\Nilesoft Shell\shell.log

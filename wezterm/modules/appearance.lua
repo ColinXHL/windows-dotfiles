@@ -25,16 +25,16 @@ function M.apply_to_config(config)
 	--   "liga=0",
 	-- }
 
-	config.color_scheme = "Tokyo Night Moon"
+	config.color_scheme = "Catppuccin Mocha"
 	config.text_background_opacity = 0.75
 	config.win32_system_backdrop = "Disable"
-	-- Keep the rainy Tokyo artwork moving subtly with terminal scrollback.
+	-- Keep the rainy Tokyo artwork as a subtle texture over the Mocha base.
 	config.background = {
 		{
-			source = { Color = "#070b18" },
+			source = { Color = "#1e1e2e" },
 			width = "100%",
 			height = "100%",
-			opacity = 0.35,
+			opacity = 0.48,
 		},
 		{
 			source = { File = wezterm.config_dir .. "/assets/tokyo-night-parallax.png" },
@@ -45,17 +45,17 @@ function M.apply_to_config(config)
 			vertical_align = "Top",
 			width = "Cover",
 			height = "Cover",
-			opacity = 0.35,
+			opacity = 0.20,
 			hsb = {
-				saturation = 0.95,
-				brightness = 0.75,
+				saturation = 0.65,
+				brightness = 0.65,
 			},
 		},
 		{
-			source = { Color = "#070b18" },
+			source = { Color = "#11111b" },
 			width = "100%",
 			height = "100%",
-			opacity = 0.08,
+			opacity = 0.12,
 		},
 	}
 

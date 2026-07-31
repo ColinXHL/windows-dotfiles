@@ -132,6 +132,14 @@ Set-ConfigLink `
     -Path (Join-Path $env:APPDATA "nushell\config.nu") `
     -Target (Join-Path $repoRoot "nushell\config.nu")
 
+$powershellProfile = Join-Path `
+    ([Environment]::GetFolderPath("MyDocuments")) `
+    "PowerShell\Microsoft.PowerShell_profile.ps1"
+
+Set-ConfigLink `
+    -Path $powershellProfile `
+    -Target (Join-Path $repoRoot "powershell\Microsoft.PowerShell_profile.ps1")
+
 Set-ConfigTree `
     -Source (Join-Path $repoRoot "nvim") `
     -Destination (Join-Path $env:LOCALAPPDATA "nvim")
@@ -157,6 +165,10 @@ Set-ConfigLink `
     -Path (Join-Path $HOME ".config\opencode\tui.json") `
     -Target (Join-Path $repoRoot "opencode\tui.json")
 
+Set-ConfigTree `
+    -Source (Join-Path $repoRoot "opencode\plugins") `
+    -Destination (Join-Path $HOME ".config\opencode\plugins")
+
 Set-ConfigLink `
     -Path (Join-Path $HOME ".glzr\glazewm\config.yaml") `
     -Target (Join-Path $repoRoot "glzr\glazewm\config.yaml")
@@ -164,6 +176,27 @@ Set-ConfigLink `
 Set-ConfigLink `
     -Path (Join-Path $HOME ".glzr\zebar\settings.json") `
     -Target (Join-Path $repoRoot "glzr\zebar\settings.json")
+
+$runKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
+$startupApps = @(
+    @{
+        Name = "GlazeWM"
+        Path = Join-Path $env:ProgramFiles "glzr.io\GlazeWM\glazewm.exe"
+    },
+    @{
+        Name = "YASB"
+        Path = Join-Path $env:ProgramFiles "YASB\yasb.exe"
+    }
+)
+
+foreach ($app in $startupApps) {
+    if (Test-Path -LiteralPath $app.Path) {
+        Set-ItemProperty -LiteralPath $runKey -Name $app.Name -Value $app.Path
+        Write-Host "Configured startup: $($app.Name) -> $($app.Path)"
+    } else {
+        Write-Warning "$($app.Name) is not installed at: $($app.Path)"
+    }
+}
 
 $yasbConfig = Join-Path $HOME ".config\yasb"
 $yasbSource = Join-Path $repoRoot "yasb"
@@ -187,19 +220,17 @@ if (-not $SkipNilesoft) {
     if (-not (Test-Path -LiteralPath $nilesoftTarget)) {
         Write-Warning "Nilesoft Shell is not installed at: $nilesoftTarget"
     } else {
-        Copy-Item `
-            -LiteralPath (Join-Path $nilesoftSource "shell.nss") `
-            -Destination (Join-Path $nilesoftTarget "shell.nss") `
-            -Force
+        Set-ConfigLink `
+            -Path (Join-Path $nilesoftTarget "shell.nss") `
+            -Target (Join-Path $nilesoftSource "shell.nss")
 
         Get-ChildItem -LiteralPath (Join-Path $nilesoftSource "imports") -File | ForEach-Object {
-            Copy-Item `
-                -LiteralPath $_.FullName `
-                -Destination (Join-Path $nilesoftTarget "imports\$($_.Name)") `
-                -Force
+            Set-ConfigLink `
+                -Path (Join-Path $nilesoftTarget "imports\$($_.Name)") `
+                -Target $_.FullName
         }
 
         & (Join-Path $nilesoftTarget "shell.exe") -restart -silent
-        Write-Host "Installed and reloaded Nilesoft Shell configuration."
+        Write-Host "Linked and reloaded Nilesoft Shell configuration."
     }
 }
