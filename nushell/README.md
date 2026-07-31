@@ -10,7 +10,7 @@ Windows-first configuration for Nushell running in WezTerm. Validated with Nushe
 - `modules/completions.nu`: fuzzy IDE-style completion menu and Tab behavior
 - `modules/proxy.nu`: default local proxy and `proxy-on`/`proxy-off`
 - `modules/commands.nu`: aliases, Git abbreviations, `mkcd`, and Yazi wrapper
-- `starship.toml`: official Tokyo Night preset
+- `starship.toml`: customized Tokyo Night preset with home-relative Git repository paths
 - `fastfetch.jsonc`: Windows desktop module selection without unsupported probes
 - `install.ps1`: idempotent Windows symbolic-link installer
 
@@ -68,7 +68,7 @@ The installer leaves correct existing links unchanged. Existing regular files ar
 ## Behavior
 
 - Fastfetch runs only in a top-level shell (`SHLVL == 1`) and skips unsupported desktop probes.
-- Starship keeps the active prompt complete, shows commands taking at least two seconds, and collapses completed prompts to a status-colored arrow.
+- Starship keeps the active prompt complete, shows commands taking at least two seconds, collapses completed prompts to a status-colored arrow, and keeps Git repository paths home-relative.
 - Tab opens the IDE completion menu; arrows select; a second Tab accepts without executing.
 - `rm` uses the Recycle Bin by default. Use `rm --permanent` for permanent deletion.
 - `proxy-on` uses `http://127.0.0.1:7890`; `proxy-off` restores the inherited proxy variables.

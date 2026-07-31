@@ -12,18 +12,37 @@ for ($i = 0; $i -lt $lines.Count; $i++) {
     }
 }
 
-if ($separatorIndex -lt 0) {
-    exit 0
-}
+$updates = [Collections.Generic.List[object]]::new()
+if ($separatorIndex -ge 0) {
+    for ($i = $separatorIndex + 1; $i -lt $lines.Count; $i++) {
+        $line = $lines[$i].Trim()
+        if ([string]::IsNullOrWhiteSpace($line)) {
+            if ($updates.Count -gt 0) { break }
+            continue
+        }
 
-$count = 0
-for ($i = $separatorIndex + 1; $i -lt $lines.Count; $i++) {
-    $line = $lines[$i].TrimEnd()
-    if ($line -match "^\s*.+\s+[A-Za-z0-9][A-Za-z0-9._+-]+\s+\S+\s+\S+\s+\S+\s*$") {
-        $count++
+        if ($line -notmatch "^(?<name>.+)\s+(?<id>\S+)\s+(?<current>\S+)\s+(?<available>\S+)\s+(?<source>\S+)$") {
+            continue
+        }
+
+        $updates.Add([pscustomobject]@{
+            Name = $Matches.name.Trim()
+            CurrentVersion = $Matches.current
+            AvailableVersion = $Matches.available
+        })
     }
 }
 
-if ($count -gt 0) {
-    [Console]::Out.Write($count)
+if ($updates.Count -eq 0) {
+    exit 0
 }
+$details = @("Available Winget updates:")
+$details += $updates | ForEach-Object {
+    "- $($_.Name)  $($_.CurrentVersion) -> $($_.AvailableVersion)"
+}
+$details += "Checked: $(Get-Date -Format 'HH:mm:ss')"
+
+[ordered]@{
+    count = $updates.Count
+    details = $details -join "`n"
+} | ConvertTo-Json -Compress

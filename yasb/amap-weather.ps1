@@ -26,17 +26,17 @@ function Invoke-AmapWeather([string]$extension) {
 }
 
 function Get-WeatherIcon([string]$weather) {
-    if ($weather.Contains([string][char]0x96F7)) { return [char]::ConvertFromUtf32(0xE30F) }
-    if ($weather.Contains([string][char]0x96E8)) { return [char]::ConvertFromUtf32(0xF067E) }
-    if ($weather.Contains([string][char]0x96EA)) { return [char]::ConvertFromUtf32(0xF0D98) }
+    if ($weather.Contains([string][char]0x96F7)) { return [char]::ConvertFromUtf32(0xF067E) }
+    if ($weather.Contains([string][char]0x96E8)) { return [char]::ConvertFromUtf32(0xF0597) }
+    if ($weather.Contains([string][char]0x96EA)) { return [char]::ConvertFromUtf32(0xF0598) }
     if ($weather.Contains([string][char]0x96FE) -or $weather.Contains([string][char]0x973E)) {
-        return [char]::ConvertFromUtf32(0xE303)
+        return [char]::ConvertFromUtf32(0xF0591)
     }
     if ($weather.Contains([string][char]0x4E91) -or $weather.Contains([string][char]0x9634)) {
-        return [char]::ConvertFromUtf32(0xE312)
+        return [char]::ConvertFromUtf32(0xF0590)
     }
-    if ($weather.Contains([string][char]0x6674)) { return [char]::ConvertFromUtf32(0xE30D) }
-    return [char]::ConvertFromUtf32(0xEBAA)
+    if ($weather.Contains([string][char]0x6674)) { return [char]::ConvertFromUtf32(0xF0599) }
+    return [char]::ConvertFromUtf32(0xF0595)
 }
 
 function Get-WeatherColor([string]$weather) {
@@ -71,7 +71,7 @@ try {
     $degree = [char]0x00B0
 
     $data = [ordered]@{
-        bar = "<span style=`"font-size:16px;vertical-align:middle;color:$currentColor`">$currentIcon</span> <span style=`"font-size:12px;vertical-align:middle`">$($live.weather) $($live.temperature)$degree" + "C</span>"
+        bar = "<span style=`"font-family:'JetBrainsMono NFP';font-size:16px;vertical-align:middle;color:$currentColor`">$currentIcon</span> <span style=`"font-size:12px;vertical-align:middle`">$($live.weather) $($live.temperature)$degree" + "C</span>"
         icon = $currentIcon
         color = $currentColor
         city = $live.city

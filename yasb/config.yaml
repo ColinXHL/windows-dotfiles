@@ -205,6 +205,9 @@ widgets:
       options:
         label: "<span>{wifi_icon}</span>"
         label_alt: "{wifi_name} {wifi_strength}%"
+        ethernet_label: "<span>{wifi_icon}</span>"
+        ethernet_label_alt: "<span>{wifi_icon}</span> {ip_addr}"
+        ethernet_icon: "\udb80\udf17"
         update_interval: 5000
         callbacks:
           on_left: "exec cmd.exe /c start ms-settings:network"
@@ -220,20 +223,20 @@ widgets:
   update_check:
     type: "yasb.custom.CustomWidget"
     options:
-      label: "<span>\uf0ab</span>{data}"
-      label_alt: "<span>\uf0ab</span>{data}"
+      label: "<span>\uf0ab</span>{data[count]}"
+      label_alt: "<span>\uf0ab</span>{data[count]}"
       label_placeholder: ""
       class_name: "update-check-widget"
       tooltip: true
-      tooltip_label: "Winget 有 {data} 个更新。左键全部更新，右键重新检查。"
+      tooltip_label: "{data[details]}\n\n左键全部更新，右键重新检查。"
       exec_options:
-        run_cmd: "powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\\Users\\xuhl\\.config\\yasb\\winget-update-check.ps1"
+        run_cmd: "pwsh.exe -NoProfile -ExecutionPolicy Bypass -File C:\\Users\\xuhl\\.config\\yasb\\winget-update-check.ps1"
         run_interval: 10800000
-        return_format: "string"
+        return_format: "json"
         hide_empty: true
         use_shell: false
       callbacks:
-        on_left: "exec powershell.exe -NoProfile -NoExit -ExecutionPolicy Bypass -File C:\\Users\\xuhl\\.config\\yasb\\winget-upgrade-all.ps1"
+        on_left: "exec pwsh.exe -NoProfile -NoExit -ExecutionPolicy Bypass -File C:\\Users\\xuhl\\.config\\yasb\\winget-upgrade-all.ps1"
         on_middle: "do_nothing"
         on_right: "exec_custom"
   traffic:
@@ -251,7 +254,7 @@ widgets:
       label_collapsed: "\uf0d7"
       label_expanded: "\uf0d8"
       label_position: "left"
-      icon_size: 18
+      icon_size: 20
       pin_click_modifier: "alt"
       show_unpinned: true
       show_unpinned_button: true

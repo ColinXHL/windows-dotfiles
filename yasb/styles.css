@@ -131,6 +131,7 @@
 .power-menu-widget .label {
 	color: #eba0ac;
 	font-size: 16px;
+	font-family: "JetBrainsMono NFP";
         padding: 0
 }
 .power-menu-popup .button {
@@ -172,6 +173,7 @@
 
 .icon {
 	font-size: 16px;
+	font-family: "JetBrainsMono NFP";
 }
 .start-menu .icon {
 	font-size: 18px;
@@ -342,7 +344,7 @@
 
 
 /* WIFI Setting */
-.wifi-widget .icon{
+.wifi-widget .icon {
     color: var(--mauve) !important;
 }
 
@@ -400,7 +402,7 @@ color: rgb(203, 166, 247);
     max-height: 24px;
     border: none;
     border-radius: 5px;
-    padding: 2px;
+    padding: 0;
 }
 .systray .unpinned-visibility-btn {
     min-width: 24px;

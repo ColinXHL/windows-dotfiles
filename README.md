@@ -64,6 +64,11 @@ DingTalk and AutoHotkey v2, run:
 pwsh -NoProfile -File "$HOME\windows-dotfiles\yasb\install-dingtalk-reminder.ps1"
 ```
 
+The reminder installer also registers the current-user `dingtalk-reminder:` URI
+protocol. Its Windows notification is removed when the unread badge clears;
+clicking the notification restores and focuses DingTalk or starts it when
+needed.
+
 Nilesoft Shell is installed with file-level symbolic links for `shell.nss` and
 every custom `imports/*.nss` tracked by this repository. Its untracked built-in
 modules remain in place. Because the destination is under `Program Files`, run
