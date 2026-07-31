@@ -6,6 +6,7 @@ alias nv = nvim
 alias cls = clear
 alias ex = exit
 alias ff = fastfetch
+alias op = opencode
 
 # Expand to editable full commands before execution.
 $env.config.abbreviations = {
