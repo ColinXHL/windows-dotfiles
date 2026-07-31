@@ -12,6 +12,7 @@ Personal Windows configuration managed from one repository.
 | `yazi/` | Yazi file manager configuration |
 | `opencode/` | OpenCode application and TUI configuration |
 | `glzr/` | GlazeWM and Zebar configuration |
+| `yasb/` | YASB widgets, styling, and local helper sources |
 | `nilesoft-shell/` | Nilesoft Shell context menu configuration |
 
 The WezTerm, Nushell, and Nilesoft Shell histories were imported from their
@@ -43,11 +44,19 @@ The installer creates these symbolic links:
 ~/.config/opencode/tui.json       -> <repo>/opencode/tui.json
 ~/.glzr/glazewm/config.yaml       -> <repo>/glzr/glazewm/config.yaml
 ~/.glzr/zebar/settings.json       -> <repo>/glzr/zebar/settings.json
+~/.config/yasb/*                  -> <repo>/yasb/*
 ```
 
 Existing files are moved to timestamped backups before links are created.
 Windows Developer Mode or an elevated terminal is required to create symbolic
 links. File-level links allow the installer to run while WezTerm is open.
+
+To build and register the optional DingTalk unread reminder after installing
+DingTalk and AutoHotkey v2, run:
+
+```powershell
+pwsh -NoProfile -File "$HOME\windows-dotfiles\yasb\install-dingtalk-reminder.ps1"
+```
 
 Nilesoft Shell is installed by copying the tracked files into its directory in
 `Program Files` and restarting the application. This step requires elevation.
@@ -59,4 +68,5 @@ Generated files, caches, package dependencies, histories, credentials, and API
 keys remain outside this repository. In particular, OpenCode's `node_modules`
 and package metadata stay in `~/.config/opencode`; Yazi flavors and state stay
 in `%APPDATA%/yazi`; and GlazeWM/Zebar logs, downloads, and caches stay in their
-application directories.
+application directories. YASB logs, weather credentials, DingTalk reminder
+state, and generated helper executables stay outside the repository.

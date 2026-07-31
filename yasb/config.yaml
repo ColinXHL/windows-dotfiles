@@ -1,0 +1,274 @@
+watch_stylesheet: true
+watch_config: true
+debug: false
+tooltip:
+  offset: 6
+  blur_effect:
+    enabled: true
+    dark_mode: true
+    round_corners: true
+    round_corners_type: "normal"
+    border_color: "None"
+komorebi:
+  start_command: "komorebic start"
+  stop_command: "komorebic stop"
+  reload_command: "komorebic stop && komorebic start"
+bars:
+  status-bar:
+    enabled: true
+    screens: ['*']
+    class_name: "yasb-bar"
+    alignment:
+      position: "top"
+    animation:
+      enabled: true
+      duration: 800
+    blur_effect:
+      enabled: true
+      dark_mode: true
+      round_corners: true
+      round_corners_type: "small"
+      border_color: "None"
+    window_flags:
+      always_on_top: false
+      windows_app_bar: true
+    dimensions:
+      width: "100%"
+      height: 40
+    padding:
+      top: 9
+      left: 9
+      bottom: 9
+      right: 9
+    widgets:
+      left:
+        [
+          "home",
+          "update_check",
+          "cpu",
+          "memory",
+          "traffic",
+        ]
+      center:
+        [
+          "glazewm_workspaces",
+          "active_window",
+        ]
+      right:
+        [
+          "notifications",
+          "amap_weather",
+          "clock",
+          "systray",
+          "wifi",
+          "disk",
+          "power_menu"
+        ]
+widgets:
+  glazewm_workspaces:
+    type: "glazewm.workspaces.GlazewmWorkspacesWidget"
+    options:
+      offline_label: "GlazeWM Offline"
+      hide_if_offline: false
+  home:
+    type: "yasb.home.HomeWidget"
+    options:
+      label: "<span>\udb80\udf5c</span>"
+      menu_list:
+        - { title: "Home", path: "~" }
+        - { title: "Downloads", path: "C:\\Users\\xuhl\\Downloads"}
+        - { title: "Documents", path: "C:\\Users\\xuhl\\Documents"}
+        - { title: "Pictures", path: "C:\\Users\\xuhl\\Pictures"}
+        - { title: "Videos", path: "C:\\Users\\xuhl\\Videos"}
+      system_menu: true
+      power_menu: false
+      blur: true
+      round_corners: true
+      round_corners_type: "normal"
+      border_color: ""
+  clock:
+    type: "yasb.clock.ClockWidget"
+    options:
+      label: "<span>\ue769</span>{%H:%M}"
+      label_alt: "{%a, %d %b %H:%M:%S}"
+      tooltip: true
+      timezones: [] #Looking up time zone info from registry
+  amap_weather:
+    type: "yasb.custom.CustomWidget"
+    options:
+      label: "{data[bar]}"
+      label_alt: "{data[city]} {data[weather]} {data[temp]}°C  湿度 {data[humidity]}%"
+      label_placeholder: "天气..."
+      class_name: "amap-weather-widget"
+      tooltip: true
+      tooltip_label: >-
+        <table cellspacing="7" cellpadding="9"><tr><td colspan="4"><table width="100%" cellspacing="0" cellpadding="0"><tr><td><span style="font-size:34px;color:{data[color]}">{data[icon]}</span>　<span style="font-size:21px;font-weight:700;color:#cdd6f4">{data[city]}　{data[weather]}</span></td><td align="right"><span style="font-size:30px;font-weight:700;color:{data[color]}">{data[temp]}°C</span></td></tr></table><br><span style="font-size:12px;font-weight:500;color:#9399b2">󰖎 湿度 {data[humidity]}%　　󰖝 风向风力 {data[wind]}级　　󰥔 {data[report]}</span></td></tr><tr><td width="112" align="center" bgcolor="#25253a"><span style="font-size:12px;color:#a6adc8">今天　{data[day0Date]}</span><br><span style="font-size:30px;color:{data[day0Color]}">{data[day0Icon]}</span><br><span style="font-size:13px;color:#cdd6f4">{data[day0Weather]}</span><br><span style="font-weight:700;color:#fab387">{data[day0High]}°</span><span style="color:#6c7086"> / </span><span style="font-weight:700;color:#89b4fa">{data[day0Low]}°</span></td><td width="112" align="center" bgcolor="#25253a"><span style="font-size:12px;color:#a6adc8">明天　{data[day1Date]}</span><br><span style="font-size:30px;color:{data[day1Color]}">{data[day1Icon]}</span><br><span style="font-size:13px;color:#cdd6f4">{data[day1Weather]}</span><br><span style="font-weight:700;color:#fab387">{data[day1High]}°</span><span style="color:#6c7086"> / </span><span style="font-weight:700;color:#89b4fa">{data[day1Low]}°</span></td><td width="112" align="center" bgcolor="#25253a"><span style="font-size:12px;color:#a6adc8">后天　{data[day2Date]}</span><br><span style="font-size:30px;color:{data[day2Color]}">{data[day2Icon]}</span><br><span style="font-size:13px;color:#cdd6f4">{data[day2Weather]}</span><br><span style="font-weight:700;color:#fab387">{data[day2High]}°</span><span style="color:#6c7086"> / </span><span style="font-weight:700;color:#89b4fa">{data[day2Low]}°</span></td><td width="112" align="center" bgcolor="#25253a"><span style="font-size:12px;color:#a6adc8">第四天　{data[day3Date]}</span><br><span style="font-size:30px;color:{data[day3Color]}">{data[day3Icon]}</span><br><span style="font-size:13px;color:#cdd6f4">{data[day3Weather]}</span><br><span style="font-weight:700;color:#fab387">{data[day3High]}°</span><span style="color:#6c7086"> / </span><span style="font-weight:700;color:#89b4fa">{data[day3Low]}°</span></td></tr></table>
+      exec_options:
+        run_cmd: "powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\\Users\\xuhl\\.config\\yasb\\amap-weather.ps1"
+        run_interval: 3600000
+        return_format: "json"
+        hide_empty: false
+        use_shell: false
+        encoding: "utf-8"
+      callbacks:
+        on_left: "toggle_label"
+        on_middle: "do_nothing"
+        on_right: "toggle_label"
+  notifications:
+    type: "yasb.notifications.NotificationsWidget"
+    options:
+      label: "<span>{icon}</span> {count}"
+      label_alt: "{count} 条通知"
+      hide_empty: true
+      tooltip: false
+      icons:
+        new: "\uf0f3"
+        default: "\uf1f6"
+      callbacks:
+        on_left: "toggle_notification"
+        on_middle: "toggle_label"
+        on_right: "do_nothing"
+  power_menu:
+    type: "yasb.power_menu.PowerMenuWidget"
+    options:
+      label: "\uf011"
+      uptime: True
+      blur: False
+      blur_background: True
+      animation_duration: 250
+      button_row: 3
+      buttons:
+        signout: ["\udb80\udf43","Sign out"]
+        shutdown: ["\uf011","Shut Down"]
+        restart: ["\uead2","Restart"]
+        sleep: ["\udb82\udd04","Sleep"]
+        lock: ["\uf023","Lock"]
+        cancel: ["\udb81\udf3a","Cancel"]
+  active_window:
+    type: "yasb.active_window.ActiveWindowWidget"
+    options:
+      label: "{win[title]}"
+      label_alt: ""
+      label_no_window: ""
+      label_icon: true
+      label_icon_size: 12
+      max_length: 20
+      max_length_ellipsis: "..."
+      monitor_exclusive: true
+  disk:
+    type: "yasb.disk.DiskWidget"
+    options:
+        label: "<span>\uf473</span>"
+        label_alt: "<span>\uf473</span>"
+        group_label:
+          volume_labels: ["C", "D", "E", "F"]
+          show_label_name: true
+          blur: True
+          round_corners: True
+          round_corners_type: "normal"
+          border_color: "System"
+          alignment: "right"
+          direction: "down"
+        callbacks:
+          on_left: "toggle_group"
+  cpu:
+    type: "yasb.cpu.CpuWidget"
+    options:
+      label: "<span>\uf4bc</span> {info[percent][total]}%"
+      label_alt: "<span>\uf437</span> {info[histograms][cpu_percent]}"
+      update_interval: 2000
+      histogram_icons:
+        - '\u2581' # 0%
+        - '\u2581' # 10%
+        - '\u2582' # 20%
+        - '\u2583' # 30%
+        - '\u2584' # 40%
+        - '\u2585' # 50%
+        - '\u2586' # 60%
+        - '\u2587' # 70%
+        - '\u2588' # 80%+
+      histogram_num_columns: 8
+      callbacks:
+        on_right: "exec cmd /c Taskmgr"
+  memory:
+    type: "yasb.memory.MemoryWidget"
+    options:
+      label: "<span>\uefc5</span> {virtual_mem_percent}%"
+      label_alt: "<span>\uefc5</span> {virtual_mem_used}/{virtual_mem_total}"
+      update_interval: 5000
+      callbacks:
+        on_left: "toggle_label"
+        on_middle: "do_nothing"
+        on_right: "do_nothing"
+  wifi:
+      type: "yasb.wifi.WifiWidget"
+      options:
+        label: "<span>{wifi_icon}</span>"
+        label_alt: "{wifi_name} {wifi_strength}%"
+        update_interval: 5000
+        callbacks:
+          on_left: "exec cmd.exe /c start ms-settings:network"
+          on_middle: "do_nothing"
+          on_right: "toggle_label"
+        wifi_icons: [
+          "\udb82\udd2e",  # Icon for 0% strength
+          "\udb82\udd1f",  # Icon for 1-20% strength
+          "\udb82\udd22",  # Icon for 21-40% strength
+          "\udb82\udd25",  # Icon for 41-80% strength
+          "\udb82\udd28"   # Icon for 81-100% strength
+        ]
+  update_check:
+    type: "yasb.custom.CustomWidget"
+    options:
+      label: "<span>\uf0ab</span>{data}"
+      label_alt: "<span>\uf0ab</span>{data}"
+      label_placeholder: ""
+      class_name: "update-check-widget"
+      tooltip: true
+      tooltip_label: "Winget 有 {data} 个更新。左键全部更新，右键重新检查。"
+      exec_options:
+        run_cmd: "powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\\Users\\xuhl\\.config\\yasb\\winget-update-check.ps1"
+        run_interval: 10800000
+        return_format: "string"
+        hide_empty: true
+        use_shell: false
+      callbacks:
+        on_left: "exec powershell.exe -NoProfile -NoExit -ExecutionPolicy Bypass -File C:\\Users\\xuhl\\.config\\yasb\\winget-upgrade-all.ps1"
+        on_middle: "do_nothing"
+        on_right: "exec_custom"
+  traffic:
+    type: "yasb.traffic.TrafficWidget"
+    options:
+      label: "<span>\udb82\udcfa</span> \uea9a{download_speed} \ueaa1{upload_speed}"
+      label_alt: "<span>\udb82\udcfa</span> Download {download_speed} | Upload {upload_speed}"
+      update_interval: 1000
+      callbacks:
+        on_left: 'toggle_label'
+        on_right: 'exec cmd /c Taskmgr'
+  systray:
+    type: "yasb.systray.SystrayWidget"
+    options:
+      label_collapsed: "\uf0d7"
+      label_expanded: "\uf0d8"
+      label_position: "left"
+      icon_size: 18
+      pin_click_modifier: "alt"
+      show_unpinned: true
+      show_unpinned_button: true
+      show_in_popup: true
+      icons_per_row: 4
+      show_battery: false
+      show_volume: false
+      show_network: false
+      tooltip: true
+      use_hook: true
+      hide_icons: ["DingTalkBadgeMonitor.exe"]
+      popup:
+        blur: true
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "None"
+        alignment: "right"
+        direction: "down"
+        offset_top: 6
+        offset_left: 0

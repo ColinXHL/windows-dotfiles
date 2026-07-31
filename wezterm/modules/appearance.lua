@@ -7,6 +7,7 @@ function M.apply_to_config(config)
 
 	config.font = wezterm.font_with_fallback({
 		"0xProto Nerd Font Mono",
+		"JetBrains Mono",
 		"Microsoft YaHei UI",
 		"Segoe UI Emoji",
 	})
@@ -25,7 +26,7 @@ function M.apply_to_config(config)
 	-- }
 
 	config.color_scheme = "Tokyo Night Moon"
-	config.text_background_opacity = 0.88
+	config.text_background_opacity = 0.75
 	config.win32_system_backdrop = "Disable"
 	-- Keep the rainy Tokyo artwork moving subtly with terminal scrollback.
 	config.background = {
@@ -44,7 +45,7 @@ function M.apply_to_config(config)
 			vertical_align = "Top",
 			width = "Cover",
 			height = "Cover",
-			opacity = 0.65,
+			opacity = 0.35,
 			hsb = {
 				saturation = 0.95,
 				brightness = 0.75,

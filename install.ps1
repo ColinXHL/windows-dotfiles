@@ -165,8 +165,16 @@ Set-ConfigLink `
     -Path (Join-Path $HOME ".glzr\zebar\settings.json") `
     -Target (Join-Path $repoRoot "glzr\zebar\settings.json")
 
+$yasbConfig = Join-Path $HOME ".config\yasb"
+$yasbSource = Join-Path $repoRoot "yasb"
+
+Set-ConfigTree `
+    -Source $yasbSource `
+    -Destination $yasbConfig
+
 Move-LegacyGitMetadata -ConfigPath $weztermConfig
 Move-LegacyGitMetadata -ConfigPath $nushellConfig
+Move-LegacyGitMetadata -ConfigPath $yasbConfig
 
 if (Get-Command "ya" -ErrorAction SilentlyContinue) {
     & ya pkg install
