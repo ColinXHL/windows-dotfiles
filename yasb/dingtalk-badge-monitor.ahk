@@ -57,6 +57,8 @@ CheckDingTalkBadge() {
         if !StateInitialized {
             StateInitialized := true
             WriteState(foundUnread ? "unread" : "clear")
+            if !foundUnread
+                ClearToast()
         }
 
         if foundUnread && !DingTalkUnread {
@@ -70,6 +72,7 @@ CheckDingTalkBadge() {
         } else if !foundUnread && DingTalkUnread {
             DingTalkUnread := false
             WriteState("clear")
+            ClearToast()
             StopBlink()
         }
     } catch OSError {
@@ -77,6 +80,11 @@ CheckDingTalkBadge() {
     } finally {
         Critical("Off")
     }
+}
+
+ClearToast() {
+    global ToastExe
+    Run('"' ToastExe '" clear', , "Hide")
 }
 
 StartBlink(redX, redY) {

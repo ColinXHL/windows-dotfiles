@@ -13,4 +13,4 @@ After cloning the unified dotfiles repository, build and install the native toas
 pwsh -NoProfile -File "$HOME\windows-dotfiles\yasb\install-dingtalk-reminder.ps1"
 ```
 
-The installer builds `DingTalkToast.exe` with the C# compiler included in Windows. Generated executables and icons stay under `%LOCALAPPDATA%\YASB`; only their reproducible source and installer are stored in Git.
+The installer builds `DingTalkToast.exe` with the C# compiler included in Windows. Generated executables and icons stay under `%LOCALAPPDATA%\YASB`; only their reproducible source and installer are stored in Git. The monitor removes its toast when the unread badge clears, and clicking the toast opens the existing DingTalk window.
