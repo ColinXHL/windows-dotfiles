@@ -24,54 +24,59 @@ CheckDingTalkBadge() {
     global DingTalkUnread, StateInitialized, StatePath, ToastExe, BlinkGui, BlinkVisible
 
     Critical("On")
-    if IsObject(BlinkGui) && BlinkVisible {
-        BlinkGui.Hide()
-        BlinkVisible := false
-        Sleep(30)
-    }
-
-    screenLeft := SysGet(76)
-    screenTop := SysGet(77)
-    screenWidth := SysGet(78)
-    scanLeft := screenLeft + Floor(screenWidth * 0.65)
-    scanRight := screenLeft + screenWidth - 20
-    scanBottom := screenTop + 60
-    searchX := scanLeft
-    foundUnread := false
-
-    while searchX <= scanRight && PixelSearch(&redX, &redY, searchX, screenTop, scanRight, scanBottom, 0xF94D19, 45) {
-        blueLeft := Max(screenLeft, redX - 24)
-        blueTop := Max(screenTop, redY - 6)
-        blueRight := Min(screenLeft + screenWidth - 1, redX + 5)
-        blueBottom := redY + 24
-
-        if PixelSearch(&blueX, &blueY, blueLeft, blueTop, blueRight, blueBottom, 0x007CFE, 55) {
-            foundUnread := true
-            break
+    try {
+        if IsObject(BlinkGui) && BlinkVisible {
+            BlinkGui.Hide()
+            BlinkVisible := false
+            Sleep(30)
         }
 
-        searchX := redX + 1
-    }
+        screenLeft := SysGet(76)
+        screenTop := SysGet(77)
+        screenWidth := SysGet(78)
+        scanLeft := screenLeft + Floor(screenWidth * 0.65)
+        scanRight := screenLeft + screenWidth - 20
+        scanBottom := screenTop + 60
+        searchX := scanLeft
+        foundUnread := false
 
-    if !StateInitialized {
-        StateInitialized := true
-        WriteState(foundUnread ? "unread" : "clear")
-    }
+        while searchX <= scanRight && PixelSearch(&redX, &redY, searchX, screenTop, scanRight, scanBottom, 0xF94D19, 45) {
+            blueLeft := Max(screenLeft, redX - 24)
+            blueTop := Max(screenTop, redY - 6)
+            blueRight := Min(screenLeft + screenWidth - 1, redX + 5)
+            blueBottom := redY + 24
 
-    if foundUnread && !DingTalkUnread {
-        DingTalkUnread := true
-        WriteState("unread")
-        SoundPlay("*64")
-        Run('"' ToastExe '"', , "Hide")
-        StartBlink(redX, redY)
-    } else if foundUnread {
-        UpdateBlinkPosition(redX, redY)
-    } else if !foundUnread && DingTalkUnread {
-        DingTalkUnread := false
-        WriteState("clear")
-        StopBlink()
+            if PixelSearch(&blueX, &blueY, blueLeft, blueTop, blueRight, blueBottom, 0x007CFE, 55) {
+                foundUnread := true
+                break
+            }
+
+            searchX := redX + 1
+        }
+
+        if !StateInitialized {
+            StateInitialized := true
+            WriteState(foundUnread ? "unread" : "clear")
+        }
+
+        if foundUnread && !DingTalkUnread {
+            DingTalkUnread := true
+            WriteState("unread")
+            SoundPlay("*64")
+            Run('"' ToastExe '"', , "Hide")
+            StartBlink(redX, redY)
+        } else if foundUnread {
+            UpdateBlinkPosition(redX, redY)
+        } else if !foundUnread && DingTalkUnread {
+            DingTalkUnread := false
+            WriteState("clear")
+            StopBlink()
+        }
+    } catch OSError {
+        ; Pixel APIs are temporarily unavailable on the UAC secure desktop.
+    } finally {
+        Critical("Off")
     }
-    Critical("Off")
 }
 
 StartBlink(redX, redY) {
