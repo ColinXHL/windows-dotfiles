@@ -253,7 +253,7 @@ keybindings:
 
   # Change the focused window to be fullscreen.
   - commands: ['toggle-fullscreen']
-    bindings: ['alt+f']
+    bindings: ['ctrl+alt+f']
 
   # Minimize focused window.
   - commands: ['toggle-minimized']
@@ -262,10 +262,6 @@ keybindings:
   # Close focused window.
   - commands: ['close']
     bindings: ['alt+shift+q']
-
-  # Kill GlazeWM process safely.
-  - commands: ['wm-exit']
-    bindings: ['alt+shift+e']
 
   # Re-evaluate configuration file.
   - commands: ['wm-reload-config']
@@ -284,10 +280,6 @@ keybindings:
     bindings: ['alt+oem_open_brackets']
   - commands: ['focus --next-active-workspace']
     bindings: ['alt+oem_close_brackets']
-
-  # Focus the chat workspace.
-  - commands: ['focus --workspace 3']
-    bindings: ['alt+d']
 
   # Change focus to a workspace defined in `workspaces` config.
   - commands: ['focus --workspace 1']

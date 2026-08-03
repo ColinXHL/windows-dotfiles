@@ -74,6 +74,38 @@ function Set-ConfigTree {
     }
 }
 
+function Remove-StaleTreeLinks {
+    param(
+        [Parameter(Mandatory)]
+        [string] $Source,
+
+        [Parameter(Mandatory)]
+        [string] $Destination
+    )
+
+    if (-not (Test-Path -LiteralPath $Destination)) {
+        return
+    }
+
+    $sourceRoot = [IO.Path]::GetFullPath($Source).TrimEnd('\') + '\'
+    Get-ChildItem -LiteralPath $Destination -Recurse -Force | ForEach-Object {
+        if ($_.LinkType -ne "SymbolicLink") {
+            return
+        }
+
+        $target = @($_.Target) | Select-Object -First 1
+        if ($null -eq $target) {
+            return
+        }
+
+        $targetPath = [IO.Path]::GetFullPath([string] $target)
+        if ($targetPath.StartsWith($sourceRoot, [StringComparison]::OrdinalIgnoreCase) -and -not (Test-Path -LiteralPath $targetPath)) {
+            Remove-Item -LiteralPath $_.FullName -Force
+            Write-Host "Removed stale link: $($_.FullName) -> $targetPath"
+        }
+    }
+}
+
 function Move-LegacyGitMetadata {
     param(
         [Parameter(Mandatory)]
@@ -141,6 +173,10 @@ Set-ConfigLink `
     -Target (Join-Path $repoRoot "powershell\Microsoft.PowerShell_profile.ps1")
 
 Set-ConfigTree `
+    -Source (Join-Path $repoRoot "nvim") `
+    -Destination (Join-Path $env:LOCALAPPDATA "nvim")
+
+Remove-StaleTreeLinks `
     -Source (Join-Path $repoRoot "nvim") `
     -Destination (Join-Path $env:LOCALAPPDATA "nvim")
 

@@ -42,25 +42,25 @@ function M.apply_to_config(config)
 		},
 		{
 			key = "h",
-			mods = "ALT",
+			mods = "LEADER",
 			action = act.ActivatePaneDirection("Left"),
 			desc = "聚焦左侧分屏",
 		},
 		{
 			key = "j",
-			mods = "ALT",
+			mods = "LEADER",
 			action = act.ActivatePaneDirection("Down"),
 			desc = "聚焦下方分屏",
 		},
 		{
 			key = "k",
-			mods = "ALT",
+			mods = "LEADER",
 			action = act.ActivatePaneDirection("Up"),
 			desc = "聚焦上方分屏",
 		},
 		{
 			key = "l",
-			mods = "ALT",
+			mods = "LEADER",
 			action = act.ActivatePaneDirection("Right"),
 			desc = "聚焦右侧分屏",
 		},
@@ -122,9 +122,15 @@ function M.apply_to_config(config)
 		},
 		{
 			key = "Enter",
-			mods = "ALT",
+			mods = "LEADER",
 			action = act.ToggleFullScreen,
 			desc = "切换全屏",
+		},
+		{
+			key = "Enter",
+			mods = "ALT",
+			action = act.DisableDefaultAssignment,
+			desc = "将 Alt+Enter 交给终端应用",
 		},
 	}
 
@@ -188,7 +194,7 @@ function M.apply_to_config(config)
 	for i = 1, 9 do
 		table.insert(config.keys, {
 			key = tostring(i),
-			mods = "ALT",
+			mods = "LEADER",
 			action = act.ActivateTab(i - 1),
 			desc = "切换到标签 " .. i,
 		})

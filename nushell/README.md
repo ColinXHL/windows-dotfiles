@@ -12,14 +12,14 @@ Windows-first configuration for Nushell running in WezTerm. Validated with Nushe
 - `modules/commands.nu`: aliases, Git abbreviations, `mkcd`, and Yazi wrapper
 - `starship.toml`: customized Tokyo Night preset with home-relative Git repository paths
 - `fastfetch.jsonc`: Windows desktop module selection without unsupported probes
-- `install.ps1`: idempotent Windows symbolic-link installer
+- `install.ps1`: legacy standalone linker; use the unified repository installer
 
 History databases, plugin registries, backups, and generated vendor scripts are intentionally excluded.
 
 ## Requirements
 
 - Nushell 0.114.1 or newer compatible release
-- WezTerm with Kitty keyboard protocol support
+- A terminal capable of running Nushell; WezTerm is the intended terminal
 - Starship
 - Fastfetch
 - Neovim
@@ -48,22 +48,28 @@ These files are generated for the local installation and should not be committed
 
 ## Windows links
 
-The repository is the source of truth. The active files are symbolic links:
+The unified repository is the source of truth. Its installer creates these
+symbolic links:
 
 ```text
-%APPDATA%\nushell\config.nu -> ~/.config/nushell/config.nu
-~/.config/starship.toml      -> ~/.config/nushell/starship.toml
+~/.config/nushell/config.nu       -> ~/windows-dotfiles/nushell/config.nu
+~/.config/nushell/modules/*.nu    -> ~/windows-dotfiles/nushell/modules/*.nu
+~/.config/nushell/fastfetch.jsonc -> ~/windows-dotfiles/nushell/fastfetch.jsonc
+%APPDATA%\nushell\config.nu       -> ~/windows-dotfiles/nushell/config.nu
+~/.config/starship.toml           -> ~/windows-dotfiles/nushell/starship.toml
 ```
 
 Creating symbolic links requires Windows Developer Mode or an elevated terminal.
 
-Clone the repository to `~/.config/nushell`, then run:
+Clone the unified repository and run:
 
 ```powershell
-pwsh -NoProfile -File "$HOME\.config\nushell\install.ps1"
+git clone https://github.com/ColinXHL/windows-dotfiles.git "$HOME\windows-dotfiles"
+pwsh -NoProfile -File "$HOME\windows-dotfiles\install.ps1"
 ```
 
-The installer leaves correct existing links unchanged. Existing regular files are moved to timestamped `.bak` files before links are created.
+The installer leaves correct existing links unchanged. Conflicting destination
+files or links are moved to timestamped `.bak` files before replacement.
 
 ## Behavior
 

@@ -9,16 +9,6 @@ local full_bleed_processes = {
 	["opencode.exe"] = true,
 }
 
-local opaque_processes = {
-	["nvim"] = true,
-	["nvim.exe"] = true,
-}
-
-local process_backgrounds = {
-	["nvim"] = "#1e1e2e",
-	["nvim.exe"] = "#1e1e2e",
-}
-
 local active_apps = {}
 local missed_app_checks = {}
 
@@ -45,7 +35,6 @@ local function update_window_padding(window, pane)
 	end
 
 	local needs_full_bleed = full_bleed_processes[process_name] == true
-	local needs_opaque_background = opaque_processes[process_name] == true
 	local overrides = window:get_config_overrides() or {}
 	local padding = overrides.window_padding
 	local has_zero_padding = padding
@@ -54,19 +43,12 @@ local function update_window_padding(window, pane)
 		and padding.top == 0
 		and padding.bottom == 0
 	local has_expected_padding = needs_full_bleed == (has_zero_padding == true)
-	local expected_opacity = needs_opaque_background and 1 or nil
-	local expected_text_background_opacity = needs_opaque_background and 1 or nil
-	local expected_background = process_backgrounds[process_name]
-	local overridden_background = overrides.colors and overrides.colors.background or nil
-	local has_background_layer = overrides.background ~= nil
-	local expects_background_layer = expected_background ~= nil
-
 	if
 		has_expected_padding
-		and overrides.window_background_opacity == expected_opacity
-		and overrides.text_background_opacity == expected_text_background_opacity
-		and overridden_background == expected_background
-		and has_background_layer == expects_background_layer
+		and overrides.window_background_opacity == nil
+		and overrides.text_background_opacity == nil
+		and overrides.colors == nil
+		and overrides.background == nil
 	then
 		return
 	end
@@ -77,17 +59,10 @@ local function update_window_padding(window, pane)
 		top = 0,
 		bottom = 0,
 	} or nil
-	overrides.window_background_opacity = expected_opacity
-	overrides.text_background_opacity = expected_text_background_opacity
-	overrides.colors = expected_background and { background = expected_background } or nil
-	overrides.background = expected_background and {
-		{
-			source = { Color = expected_background },
-			width = "100%",
-			height = "100%",
-			opacity = 1,
-		},
-	} or nil
+	overrides.window_background_opacity = nil
+	overrides.text_background_opacity = nil
+	overrides.colors = nil
+	overrides.background = nil
 	window:set_config_overrides(overrides)
 end
 

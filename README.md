@@ -1,6 +1,7 @@
-# Windows Dotfiles
+# Windows and Linux Development Dotfiles
 
-Personal Windows configuration managed from one repository.
+Personal Windows desktop and Linux SSH development configuration managed from
+one repository.
 
 ## Contents
 
@@ -10,17 +11,19 @@ Personal Windows configuration managed from one repository.
 | `nushell/` | Nushell, Starship, and Fastfetch configuration |
 | `powershell/` | PowerShell 7 profile and interactive shell helpers |
 | `nvim/` | Neovim and LazyVim configuration |
+| `tmux/` | Minimal remote tmux configuration with true color and OSC 52 |
 | `yazi/` | Yazi file manager configuration |
 | `opencode/` | OpenCode application and TUI configuration |
 | `glzr/` | GlazeWM and Zebar configuration |
 | `yasb/` | YASB widgets, styling, and local helper sources |
 | `nilesoft-shell/` | Nilesoft Shell context menu configuration |
 
-The WezTerm, Nushell, and Nilesoft Shell histories were imported from their
-original repositories with Git subtree. Application-specific documentation is
-kept in each directory.
+The WezTerm, Nushell, Nilesoft Shell, Neovim, Yazi, and `glzr` histories were
+imported from their original repositories with Git subtree. Additional
+application-specific documentation is available in `wezterm/`, `nushell/`,
+`nvim/`, `yasb/`, and `nilesoft-shell/`.
 
-## Install
+## Windows Install
 
 Clone the repository and run the installer from PowerShell 7:
 
@@ -29,45 +32,127 @@ git clone https://github.com/ColinXHL/windows-dotfiles.git "$HOME\windows-dotfil
 pwsh -NoProfile -File "$HOME\windows-dotfiles\install.ps1"
 ```
 
+The installer links configuration but does not install the applications it
+configures. Install the applications needed by the selected configurations
+first. WezTerm starts `nu.exe`; Nushell runs Fastfetch and requires the generated
+`~/.zoxide.nu` described in `nushell/README.md`; and the PowerShell profile
+requires Zoxide. Both shell configurations enable the local HTTP/HTTPS proxy at
+`127.0.0.1:7890` by default.
+
+The YASB configuration contains `C:\Users\xuhl\...` paths. Replace them in
+`yasb/config.yaml` before installing under another Windows account.
+
 The installer creates these symbolic links:
 
 ```text
 ~/.config/wezterm/wezterm.lua     -> <repo>/wezterm/wezterm.lua
 ~/.config/wezterm/modules/*.lua   -> <repo>/wezterm/modules/*.lua
+~/.config/wezterm/assets/**       -> <repo>/wezterm/assets/**
 ~/.config/nushell/config.nu       -> <repo>/nushell/config.nu
 ~/.config/nushell/modules/*.nu    -> <repo>/nushell/modules/*.nu
 ~/.config/nushell/fastfetch.jsonc -> <repo>/nushell/fastfetch.jsonc
 ~/.config/starship.toml           -> <repo>/nushell/starship.toml
 %APPDATA%/nushell/config.nu       -> <repo>/nushell/config.nu
-~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1
+<Windows Documents known folder>/PowerShell/Microsoft.PowerShell_profile.ps1
                                     -> <repo>/powershell/Microsoft.PowerShell_profile.ps1
-%LOCALAPPDATA%/nvim/*             -> <repo>/nvim/*
-%APPDATA%/yazi/config/*.toml      -> <repo>/yazi/*.toml
+%LOCALAPPDATA%/nvim/**            -> <repo>/nvim/**, one link per file
+%APPDATA%/yazi/config/**          -> <repo>/yazi/**, one link per file
 ~/.config/opencode/opencode.jsonc -> <repo>/opencode/opencode.jsonc
 ~/.config/opencode/tui.json       -> <repo>/opencode/tui.json
-~/.config/opencode/plugins/*.ts   -> <repo>/opencode/plugins/*.ts
+~/.config/opencode/plugins/**     -> <repo>/opencode/plugins/**
 ~/.glzr/glazewm/config.yaml       -> <repo>/glzr/glazewm/config.yaml
 ~/.glzr/zebar/settings.json       -> <repo>/glzr/zebar/settings.json
-~/.config/yasb/*                  -> <repo>/yasb/*
+~/.config/yasb/**                 -> <repo>/yasb/**, one link per file
+
+Unless -SkipNilesoft is passed, when Nilesoft Shell is installed:
+%ProgramFiles%/Nilesoft Shell/shell.nss
+                                    -> <repo>/nilesoft-shell/shell.nss
+%ProgramFiles%/Nilesoft Shell/imports/*
+                                    -> <repo>/nilesoft-shell/imports/*
 ```
 
-Existing files are moved to timestamped backups before links are created.
-Windows Developer Mode or an elevated terminal is required to create symbolic
-links. File-level links allow the installer to run while WezTerm is open. When
-installed in their standard locations, GlazeWM and YASB are also registered as
-independent current-user startup applications.
+Already-correct symbolic links are left unchanged. Conflicting destinations are
+moved to timestamped `.bak` paths before replacement; tree installations do
+this per file. Legacy `.git` directories in the WezTerm, Nushell, and YASB
+destinations are archived separately.
 
-To build and register the optional DingTalk unread reminder after installing
-DingTalk and AutoHotkey v2, run:
+Windows Developer Mode or an elevated terminal is required to create symbolic
+links, and Nilesoft requires elevation for its `Program Files` destination.
+File-level links allow the installer to run while WezTerm is open. The installer
+also removes stale Neovim links, sets `YAZI_FILE_ONE` when
+`%ProgramFiles%\Git\usr\bin\file.exe` is found, runs `ya pkg install` when
+available, and restarts Nilesoft after updating it. When installed in their
+standard locations, GlazeWM and YASB are registered as independent current-user
+startup applications.
+
+## Linux SSH Install
+
+Clone this repository inside the Linux VM or server and run:
+
+```bash
+git clone https://github.com/ColinXHL/windows-dotfiles.git ~/windows-dotfiles
+bash ~/windows-dotfiles/install-linux.sh --packages
+```
+
+`--packages` is optional and invokes the detected `apt-get`, `dnf`, `pacman`, or
+`zypper` package manager. Commands run directly as root; otherwise the script
+uses `sudo`, falling back to `doas`. Without `--packages`, no system packages are
+changed, but setup requires an existing usable Neovim or `curl`, `tar`, and
+`sha256sum`/`shasum`; Git is also required to restore plugins. The installer:
+
+- uses the first `nvim` on `PATH` when it runs and is at least 0.11.2, otherwise
+  installs the checksum-verified official Neovim 0.12.4 build under `~/.local`
+  on x86-64 or ARM64 glibc systems;
+- links `nvim/` to `${XDG_CONFIG_HOME:-$HOME/.config}/nvim` and links
+  `tmux/tmux.conf` to `~/.tmux.conf`;
+- preserves existing files as timestamped backups;
+- handles Debian's `fdfind` executable name; and
+- restores LazyVim plugins from `lazy-lock.json` when Git is available, unless
+  `--no-sync` is passed.
+
+The optional package step installs a C/C++ compiler and Clang tools, CA
+certificates, Git, CMake, curl, gzip, Ninja, tmux, ripgrep, fd/fd-find, Node/npm,
+Python/pip, tar, and unzip; apt systems also receive `python3-venv`. The Arch
+branch runs `pacman -Syu`, including a full system upgrade. Other architectures,
+musl systems, and hosts with glibc too old for the official Neovim build are not
+supported by the bundled Neovim installer.
+
+The Linux installer deliberately does not link Windows-specific WezTerm,
+GlazeWM, YASB, Nushell, or OpenCode settings. It does not select the local SSH
+client; when the session runs inside the configured WezTerm, WezTerm supplies
+the Nerd Font rendering, Catppuccin palette, and local background image.
+
+Start a project with:
+
+```bash
+cd /path/to/project
+tmux
+nvim .
+```
+
+Use `"+y` in Neovim when text should be copied through tmux/OSC 52 to the
+Windows clipboard. Normal `y` stays in Neovim's unnamed register. The included
+tmux configuration enables application OSC 52 writes for trusted development
+VMs; change `set-clipboard` from `on` to `external` on untrusted hosts. Ordinary
+tmux option changes can be reloaded without destroying sessions using
+`tmux source-file ~/.tmux.conf`; after changing terminal capability settings,
+start a new client or restart the server before validating `Ms`.
+
+See `nvim/README.md` for the intentionally small keymap and C++ workflow.
+
+To build and register the optional DingTalk unread reminder, use 64-bit Windows
+with the .NET Framework C# compiler and Windows metadata assemblies present,
+DingTalk installed at `C:\Program Files (x86)\DingDing\main\current\DingTalk.exe`,
+and AutoHotkey v2 at `%ProgramFiles%\AutoHotkey\v2\AutoHotkey64.exe`; then run:
 
 ```powershell
 pwsh -NoProfile -File "$HOME\windows-dotfiles\yasb\install-dingtalk-reminder.ps1"
 ```
 
 The reminder installer also registers the current-user `dingtalk-reminder:` URI
-protocol. Its Windows notification is removed when the unread badge clears;
-clicking the notification restores and focuses DingTalk or starts it when
-needed.
+protocol. Its Windows notification is removed when the unread badge clears.
+Clicking it attempts to restore and focus a running DingTalk main window, or to
+start DingTalk from the configured path when no window is found.
 
 Nilesoft Shell is installed with file-level symbolic links for `shell.nss` and
 every custom `imports/*.nss` tracked by this repository. Its untracked built-in
@@ -78,9 +163,12 @@ the links, rerun the installer to restore them.
 
 ## Local State
 
-Generated files, caches, package dependencies, histories, credentials, and API
-keys remain outside this repository. In particular, OpenCode's `node_modules`
-and package metadata stay in `~/.config/opencode`; Yazi flavors and state stay
-in `%APPDATA%/yazi`; and GlazeWM/Zebar logs, downloads, and caches stay in their
-application directories. YASB logs, weather credentials, DingTalk reminder
-state, and generated helper executables stay outside the repository.
+Runtime caches, installed package dependencies, histories, credentials, API
+keys, and other machine-local state remain outside this repository. Intentional
+configuration and lock metadata, including `nvim/lazy-lock.json`,
+`nvim/lazyvim.json`, and `yazi/package.toml`, is tracked. OpenCode's
+`node_modules` and runtime package metadata stay in `~/.config/opencode`; Yazi
+flavors and state stay in `%APPDATA%/yazi`; and GlazeWM/Zebar logs, downloads,
+and caches stay in their application directories. YASB logs, weather
+credentials, DingTalk reminder state, and generated helper executables stay
+outside the repository.

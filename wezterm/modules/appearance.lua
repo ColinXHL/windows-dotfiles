@@ -34,7 +34,7 @@ function M.apply_to_config(config)
 			source = { Color = "#1e1e2e" },
 			width = "100%",
 			height = "100%",
-			opacity = 0.48,
+			opacity = 0.32,
 		},
 		{
 			source = { File = wezterm.config_dir .. "/assets/tokyo-night-parallax.png" },
@@ -45,10 +45,10 @@ function M.apply_to_config(config)
 			vertical_align = "Top",
 			width = "Cover",
 			height = "Cover",
-			opacity = 0.20,
+			opacity = 0.38,
 			hsb = {
-				saturation = 0.65,
-				brightness = 0.65,
+				saturation = 0.70,
+				brightness = 0.72,
 			},
 		},
 		{
