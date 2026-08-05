@@ -8,7 +8,7 @@
 
 - Nushell 作为默认 Shell
 - Catppuccin Mocha 配色与低对比度纵向视差背景
-- 12pt 字体栈：`0xProto Nerd Font Mono` -> `JetBrains Mono` -> `Microsoft YaHei UI` -> `Segoe UI Emoji`
+- 12pt 字体栈：`0xProto Nerd Font Mono` -> `JetBrains Mono` -> `Noto Serif SC Bold` -> `Segoe UI Emoji`
 - `Ctrl+A` Leader 和模式化 Pane 操作
 - Vim 风格 Copy/Search Mode
 - Quick Select、鼠标选择和右键智能复制/粘贴
@@ -20,10 +20,10 @@
 - Windows 10 或 Windows 11
 - [WezTerm](https://wezterm.org/installation.html)
 - [Nushell](https://www.nushell.sh/)
-- [0xProto Nerd Font Mono](https://www.nerdfonts.com/font-downloads) 和 `JetBrains Mono`
+- [0xProto Nerd Font Mono](https://www.nerdfonts.com/font-downloads)、`JetBrains Mono`、`Noto Serif SC` 和 `Courier Prime`
 - PowerShell 7：运行仓库根目录安装器时必需；手工安装时仅 Launcher 中的 PowerShell 7 条目需要
 
-`Microsoft YaHei UI` 和 `Segoe UI Emoji` 通常随 Windows 提供。首次引用
+`Segoe UI Emoji` 通常随 Windows 提供。首次引用
 插件且本地尚无缓存时需要访问 GitHub；WezTerm 会克隆并缓存
 [wezterm-cmdpicker](https://github.com/abidibo/wezterm-cmdpicker)。插件 URL
 未固定到特定提交，已缓存副本不会自动更新。当前浮层只列出自定义

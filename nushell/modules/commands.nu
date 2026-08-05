@@ -3,10 +3,15 @@ alias v = nvim
 alias vi = nvim
 alias vim = nvim
 alias nv = nvim
-alias cls = clear
+def cls [] {
+    print -n $"(ansi reset)(ansi cursor_home)(ansi cls)"
+}
 alias ex = exit
 alias ff = fastfetch
-alias op = opencode
+def --wrapped op [...args] {
+    print ""
+    ^opencode ...$args
+}
 
 # Expand to editable full commands before execution.
 $env.config.abbreviations = {

@@ -11,8 +11,10 @@ one repository.
 | `nushell/` | Nushell, Starship, and Fastfetch configuration |
 | `powershell/` | PowerShell 7 profile and interactive shell helpers |
 | `nvim/` | Neovim and LazyVim configuration |
+| `neovide/` | Neovide font and renderer configuration |
 | `tmux/` | Minimal remote tmux configuration with true color and OSC 52 |
 | `yazi/` | Yazi file manager configuration |
+| `flow-launcher/` | Flow Launcher settings and Catppuccin theme |
 | `opencode/` | OpenCode application and TUI configuration |
 | `glzr/` | GlazeWM and Zebar configuration |
 | `yasb/` | YASB widgets, styling, and local helper sources |
@@ -48,6 +50,7 @@ The installer creates these symbolic links:
 ~/.config/wezterm/wezterm.lua     -> <repo>/wezterm/wezterm.lua
 ~/.config/wezterm/modules/*.lua   -> <repo>/wezterm/modules/*.lua
 ~/.config/wezterm/assets/**       -> <repo>/wezterm/assets/**
+%APPDATA%/neovide/config.toml     -> <repo>/neovide/config.toml
 ~/.config/nushell/config.nu       -> <repo>/nushell/config.nu
 ~/.config/nushell/modules/*.nu    -> <repo>/nushell/modules/*.nu
 ~/.config/nushell/fastfetch.jsonc -> <repo>/nushell/fastfetch.jsonc
@@ -57,6 +60,14 @@ The installer creates these symbolic links:
                                     -> <repo>/powershell/Microsoft.PowerShell_profile.ps1
 %LOCALAPPDATA%/nvim/**            -> <repo>/nvim/**, one link per file
 %APPDATA%/yazi/config/**          -> <repo>/yazi/**, one link per file
+%APPDATA%/FlowLauncher/Settings/Settings.json
+                                    -> <repo>/flow-launcher/Settings.json
+%APPDATA%/FlowLauncher/Themes/Tokyo Mocha.xaml
+                                    -> <repo>/flow-launcher/themes/Tokyo Mocha.xaml
+%APPDATA%/FlowLauncher/Settings/Plugins/Flow.Launcher.Plugin.Explorer/Settings.json
+                                    -> <repo>/flow-launcher/plugins/explorer/Settings.json
+%APPDATA%/FlowLauncher/Settings/Plugins/Flow.Launcher.Plugin.WebSearch/Settings.json
+                                    -> <repo>/flow-launcher/plugins/web-search/Settings.json
 ~/.config/opencode/opencode.jsonc -> <repo>/opencode/opencode.jsonc
 ~/.config/opencode/tui.json       -> <repo>/opencode/tui.json
 ~/.config/opencode/plugins/**     -> <repo>/opencode/plugins/**
@@ -82,8 +93,10 @@ File-level links allow the installer to run while WezTerm is open. The installer
 also removes stale Neovim links, sets `YAZI_FILE_ONE` when
 `%ProgramFiles%\Git\usr\bin\file.exe` is found, runs `ya pkg install` when
 available, and restarts Nilesoft after updating it. When installed in their
-standard locations, GlazeWM and YASB are registered as independent current-user
-startup applications.
+standard locations, GlazeWM, YASB, and Flow Launcher are registered as
+independent current-user startup applications. An installed Everything client
+is registered with `-startup` to provide background search IPC without opening
+its search window.
 
 ## Linux SSH Install
 
@@ -169,6 +182,8 @@ configuration and lock metadata, including `nvim/lazy-lock.json`,
 `nvim/lazyvim.json`, and `yazi/package.toml`, is tracked. OpenCode's
 `node_modules` and runtime package metadata stay in `~/.config/opencode`; Yazi
 flavors and state stay in `%APPDATA%/yazi`; and GlazeWM/Zebar logs, downloads,
-and caches stay in their application directories. YASB logs, weather
+and caches stay in their application directories. Flow Launcher history,
+selection records, caches, logs, installed plugins, unlisted plugin settings,
+and credentials remain under `%APPDATA%/FlowLauncher`. YASB logs, weather
 credentials, DingTalk reminder state, and generated helper executables stay
 outside the repository.

@@ -139,6 +139,10 @@ Set-ConfigTree `
     -Source (Join-Path $weztermSource "assets") `
     -Destination (Join-Path $weztermConfig "assets")
 
+Set-ConfigLink `
+    -Path (Join-Path $env:APPDATA "neovide\config.toml") `
+    -Target (Join-Path $repoRoot "neovide\config.toml")
+
 $nushellConfig = Join-Path $HOME ".config\nushell"
 $nushellSource = Join-Path $repoRoot "nushell"
 
@@ -193,6 +197,25 @@ Set-ConfigTree `
     -Source (Join-Path $repoRoot "yazi") `
     -Destination (Join-Path $env:APPDATA "yazi\config")
 
+$flowLauncherSource = Join-Path $repoRoot "flow-launcher"
+$flowLauncherData = Join-Path $env:APPDATA "FlowLauncher"
+
+Set-ConfigLink `
+    -Path (Join-Path $flowLauncherData "Settings\Settings.json") `
+    -Target (Join-Path $flowLauncherSource "Settings.json")
+
+Set-ConfigLink `
+    -Path (Join-Path $flowLauncherData "Themes\Tokyo Mocha.xaml") `
+    -Target (Join-Path $flowLauncherSource "themes\Tokyo Mocha.xaml")
+
+Set-ConfigLink `
+    -Path (Join-Path $flowLauncherData "Settings\Plugins\Flow.Launcher.Plugin.Explorer\Settings.json") `
+    -Target (Join-Path $flowLauncherSource "plugins\explorer\Settings.json")
+
+Set-ConfigLink `
+    -Path (Join-Path $flowLauncherData "Settings\Plugins\Flow.Launcher.Plugin.WebSearch\Settings.json") `
+    -Target (Join-Path $flowLauncherSource "plugins\web-search\Settings.json")
+
 Set-ConfigLink `
     -Path (Join-Path $HOME ".config\opencode\opencode.jsonc") `
     -Target (Join-Path $repoRoot "opencode\opencode.jsonc")
@@ -222,6 +245,10 @@ $startupApps = @(
     @{
         Name = "YASB"
         Path = Join-Path $env:ProgramFiles "YASB\yasb.exe"
+    },
+    @{
+        Name = "Flow.Launcher"
+        Path = Join-Path $env:LOCALAPPDATA "FlowLauncher\Flow.Launcher.exe"
     }
 )
 
@@ -232,6 +259,15 @@ foreach ($app in $startupApps) {
     } else {
         Write-Warning "$($app.Name) is not installed at: $($app.Path)"
     }
+}
+
+$everythingPath = Join-Path $env:ProgramFiles "Everything\Everything.exe"
+if (Test-Path -LiteralPath $everythingPath) {
+    Set-ItemProperty `
+        -LiteralPath $runKey `
+        -Name "Everything" `
+        -Value "`"$everythingPath`" -startup"
+    Write-Host "Configured background startup: Everything -> $everythingPath"
 }
 
 $yasbConfig = Join-Path $HOME ".config\yasb"

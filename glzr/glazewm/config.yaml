@@ -72,9 +72,9 @@ window_effects:
     # Change the corner style of the window's frame.
     # ** Exclusive to Windows 11 due to API limitations.
     corner_style:
-      enabled: false
+      enabled: true
       # Allowed values: 'square', 'rounded', 'small_rounded'.
-      style: 'square'
+      style: 'rounded'
 
     # Change the transparency of the window.
     transparency:
@@ -91,8 +91,8 @@ window_effects:
     hide_title_bar:
       enabled: false
     corner_style:
-      enabled: false
-      style: 'square'
+      enabled: true
+      style: 'rounded'
     transparency:
       enabled: false
       opacity: '0%'
@@ -175,7 +175,12 @@ window_rules:
 
   - commands: ['move --workspace 1']
     match:
-      - window_process: { regex: '(?i)^(Code|Cursor|Zed|neovide)$' }
+      - window_process: { regex: '(?i)^(Code|Cursor|Zed)$' }
+    on: ['manage']
+
+  - commands: ['move --workspace 1', 'focus --workspace 1']
+    match:
+      - window_process: { equals: 'neovide' }
     on: ['manage']
 
   - commands: ['move --workspace 4']
@@ -185,7 +190,9 @@ window_rules:
 
   - commands: ['set-floating --centered']
     match:
-      - window_process: { regex: '(?i)^(explorer|SystemSettings|CalculatorApp|Taskmgr)$' }
+      - window_process: { regex: '(?i)^(explorer|SystemSettings|CalculatorApp|Taskmgr|ImageGlass)$' }
+      - window_process: { equals: 'GameViewer' }
+        window_title: { equals: '网易UU远程' }
     on: ['manage']
 
 binding_modes:
@@ -228,6 +235,10 @@ keybindings:
   # Enter resize mode and resize via HJKL.
   - commands: ['wm-enable-binding-mode --name resize']
     bindings: ['alt+r']
+
+  # Toggle a 2px gap between adjacent Neovide and WezTerm windows.
+  - commands: ['shell-exec --hide-window powershell.exe -NoProfile -ExecutionPolicy Bypass -File %USERPROFILE%\windows-dotfiles\glzr\glazewm\toggle-dev-gap.ps1']
+    bindings: ['alt+g']
 
   # Disables window management and all other keybindings until alt+shift+p
   # is pressed again.

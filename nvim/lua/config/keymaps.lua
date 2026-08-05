@@ -87,7 +87,7 @@ vim.api.nvim_create_autocmd("User", {
       del({ "n", "x" }, lhs)
     end
 
-    -- Keep [b/]b, <leader>,, and <leader>bd as the buffer workflow.
+    -- Keep [b/]b, <leader>,, and a small VS Code-style buffer workflow.
     for _, lhs in ipairs({
       "<leader>`",
       "<leader>bb",
@@ -208,9 +208,22 @@ vim.api.nvim_create_autocmd("User", {
     map("n", "<leader>|", "<C-w>v", { desc = "Split Window Right", remap = true })
     map("n", "<leader>-", "<C-w>s", { desc = "Split Window Below", remap = true })
     map("n", "<leader>wd", "<C-w>c", { desc = "Delete Window", remap = true })
+    map("n", "<leader>ba", function()
+      Snacks.bufdelete.all()
+    end, { desc = "Close All Buffers" })
     map("n", "<leader>bd", function()
       Snacks.bufdelete()
-    end, { desc = "Delete Buffer" })
+    end, { desc = "Close Buffer" })
+    map("n", "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", { desc = "Close Buffers to the Left" })
+    map("n", "<leader>bo", function()
+      Snacks.bufdelete.other()
+    end, { desc = "Close Other Buffers" })
+    map("n", "<leader>br", "<cmd>BufferLineCloseRight<cr>", { desc = "Close Buffers to the Right" })
+    map("n", "<leader>bs", function()
+      Snacks.bufdelete(function(buf)
+        return vim.bo[buf].buftype == "" and not vim.bo[buf].modified
+      end)
+    end, { desc = "Close Saved Buffers" })
     map({ "n", "x" }, "<leader>cf", function()
       LazyVim.format({ force = true })
     end, { desc = "Format" })
@@ -228,6 +241,38 @@ vim.api.nvim_create_autocmd("User", {
         win = { position = "bottom" },
       })
     end, { desc = "Terminal (Root Dir)" })
+    map("n", "<leader>z", function()
+      if vim.fn.executable("zoxide") == 0 then
+        vim.notify("zoxide is not installed", vim.log.levels.ERROR)
+        return
+      end
+
+      vim.system({ "zoxide", "query", "-l" }, { text = true }, function(result)
+        vim.schedule(function()
+          if result.code ~= 0 then
+            vim.notify(vim.trim(result.stderr or "zoxide query failed"), vim.log.levels.ERROR)
+            return
+          end
+
+          local directories = {}
+          for directory in (result.stdout or ""):gmatch("[^\r\n]+") do
+            directories[#directories + 1] = directory
+          end
+          vim.ui.select(directories, {
+            prompt = "Zoxide directory",
+            kind = "zoxide",
+            format_item = function(directory)
+              return vim.fn.fnamemodify(directory, ":~")
+            end,
+          }, function(directory)
+            if directory then
+              vim.api.nvim_set_current_dir(directory)
+              vim.notify("cwd: " .. vim.fn.fnamemodify(directory, ":~"))
+            end
+          end)
+        end)
+      end)
+    end, { desc = "Jump to Directory (Zoxide)" })
     map("n", "<leader>uh", function()
       local filter = { bufnr = 0 }
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(filter), filter)

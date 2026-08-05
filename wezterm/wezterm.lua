@@ -11,6 +11,7 @@ local modules = {
 }
 
 for _, module in ipairs(modules) do
+	package.loaded[module] = nil
 	require(module).apply_to_config(config)
 end
 

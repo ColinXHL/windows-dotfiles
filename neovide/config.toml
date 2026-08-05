@@ -1,0 +1,18 @@
+vsync = true
+idle = true
+frame = "none"
+srgb = true
+
+[font]
+size = 12.0
+hinting = "full"
+edging = "subpixelantialias"
+normal = [
+  { family = "JetBrainsMono Nerd Icons", style = "Regular" },
+  { family = "0xProto Nerd Font Mono", style = "Normal" },
+  { family = "Maple Mono Normal NF CN", style = "Normal" },
+  { family = "Segoe UI Emoji" },
+]
+
+[box-drawing]
+mode = "native"

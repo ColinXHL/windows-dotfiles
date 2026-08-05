@@ -13,10 +13,6 @@ return {
     enabled = false,
   },
   {
-    "iamcco/markdown-preview.nvim",
-    enabled = false,
-  },
-  {
     "folke/snacks.nvim",
     keys = vim.list_extend(
       disable({
@@ -85,7 +81,114 @@ return {
     ),
   },
   {
+    "mikavilpas/yazi.nvim",
+    version = "*",
+    lazy = false,
+    dependencies = {
+      { "nvim-lua/plenary.nvim", lazy = true },
+    },
+    keys = {
+      {
+        "<leader>y",
+        "<cmd>Yazi cwd<cr>",
+        desc = "Yazi",
+      },
+    },
+    opts = {
+      open_for_directories = true,
+      change_neovim_cwd_on_close = true,
+      floating_window_scaling_factor = 0.95,
+      yazi_floating_window_border = "rounded",
+      yazi_floating_window_winblend = 0,
+      keymaps = {
+        show_help = "<f1>",
+        copy_relative_path_to_selected_files = false,
+      },
+    },
+    init = function()
+      vim.g.loaded_netrwPlugin = 1
+    end,
+  },
+  {
     "akinsho/bufferline.nvim",
+    opts = function(_, opts)
+      if not vim.g.neovide then
+        return
+      end
+
+      opts.options = vim.tbl_deep_extend("force", opts.options or {}, {
+        mode = "buffers",
+        indicator = { icon = "▎", style = "icon" },
+        separator_style = { "", "" },
+        max_name_length = 28,
+        get_element_icon = function(element)
+          local category = element.directory and "directory" or "file"
+          local name = vim.fn.fnamemodify(element.path, ":t")
+          local icon = require("mini.icons").get(category, name)
+          return icon
+        end,
+        show_buffer_close_icons = false,
+        show_close_icon = false,
+        always_show_bufferline = true,
+      })
+
+      local mocha = {
+        crust = "#11111b",
+        mantle = "#181825",
+        text = "#cdd6f4",
+        overlay0 = "#6c7086",
+        mauve = "#cba6f7",
+        yellow = "#f9e2af",
+      }
+      local original_highlights = opts.highlights
+      opts.highlights = function(defaults)
+        local highlights = type(original_highlights) == "function" and original_highlights(defaults)
+          or original_highlights
+          or {}
+        local merged = vim.tbl_deep_extend("force", highlights, {
+          fill = { bg = mocha.crust },
+          background = { fg = mocha.text, bg = mocha.mantle },
+          buffer_visible = { fg = mocha.text, bg = mocha.mantle },
+          buffer_selected = { fg = mocha.crust, bg = mocha.mauve, bold = true, italic = false },
+          modified = { fg = mocha.yellow, bg = mocha.mantle },
+          modified_visible = { fg = mocha.yellow, bg = mocha.mantle },
+          modified_selected = { fg = mocha.crust, bg = mocha.mauve },
+          duplicate = { fg = mocha.overlay0, bg = mocha.mantle, italic = true },
+          duplicate_visible = { fg = mocha.overlay0, bg = mocha.mantle, italic = true },
+          duplicate_selected = { fg = mocha.crust, bg = mocha.mauve, italic = false },
+          separator = { fg = mocha.crust, bg = mocha.mantle },
+          separator_visible = { fg = mocha.crust, bg = mocha.mantle },
+          separator_selected = { fg = mocha.crust, bg = mocha.mauve },
+          indicator_selected = { fg = mocha.crust, bg = mocha.mauve },
+        })
+
+        for _, group in ipairs({
+          "buffer_selected",
+          "numbers_selected",
+          "diagnostic_selected",
+          "hint_selected",
+          "hint_diagnostic_selected",
+          "info_selected",
+          "info_diagnostic_selected",
+          "warning_selected",
+          "warning_diagnostic_selected",
+          "error_selected",
+          "error_diagnostic_selected",
+          "modified_selected",
+          "duplicate_selected",
+          "separator_selected",
+          "indicator_selected",
+          "pick_selected",
+        }) do
+          merged[group] = vim.tbl_deep_extend("force", merged[group] or {}, {
+            bg = mocha.mauve,
+            fg = mocha.crust,
+          })
+        end
+
+        return merged
+      end
+    end,
     keys = disable({
       "<S-h>",
       "<S-l>",
@@ -137,11 +240,13 @@ return {
     "mfussenegger/nvim-lint",
     opts = function(_, opts)
       opts.linters_by_ft.markdown = {}
+      opts.linters_by_ft["markdown.mdx"] = {}
     end,
   },
   {
     "neovim/nvim-lspconfig",
     opts = function(_, opts)
+      opts.servers.marksman = { enabled = false }
       opts.servers["*"].keys = {
         { "gd", vim.lsp.buf.definition, desc = "Goto Definition", has = "definition" },
         { "gr", vim.lsp.buf.references, desc = "References", nowait = true },

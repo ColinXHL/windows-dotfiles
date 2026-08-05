@@ -34,9 +34,14 @@ documented primary build and debug workflow uses the terminal.
 | Project | `<leader><space>` | Find project files |
 | Project | `<leader>/` | Search text across the project |
 | Project | `<leader>e` | Toggle the project explorer |
+| Project | `<leader>z` | Jump to a Zoxide directory |
 | Project | `<leader>,` | Pick an open buffer |
+| File | `<leader>y` | Open Yazi at the current file |
 | Buffer | `[b` / `]b` | Previous / next buffer |
 | Buffer | `<leader>bd` | Close the current buffer |
+| Buffer | `<leader>bo` / `<leader>ba` | Close other / all buffers |
+| Buffer | `<leader>bl` / `<leader>br` | Close buffers to the left / right |
+| Buffer | `<leader>bs` | Close saved file buffers |
 | Session | `<leader>qs` | Restore the current project session |
 | Save | `Ctrl+S` | Save the current file |
 | Terminal | `<leader>t` | Toggle a terminal at the project root |
@@ -55,12 +60,14 @@ documented primary build and debug workflow uses the terminal.
 | Git | `<leader>ghp` | Preview the current hunk |
 | Git | `<leader>gg` | Lazygit, when installed |
 | Markdown | `<leader>um` | Toggle terminal rendering |
+| Markdown | `<leader>cp` | Toggle browser preview |
 | LSP | `<leader>uh` | Toggle inlay hints |
 | Comment | `Ctrl+/` | Toggle comment for the current line or selection |
 
 Vim's native `s`, `S`, `H`, and `L` behavior is preserved. Flash navigation,
-browser Markdown preview, OpenCode integration, and DAP are intentionally
-disabled or omitted. CMake language support and cmake-tools commands remain
+OpenCode integration, and DAP are intentionally disabled or omitted. On
+Windows, opening a supported image file launches ImageGlass Classic and closes
+the binary buffer. CMake language support and cmake-tools commands remain
 available, but no CMake command has a primary key binding.
 
 The Linux package option installs: a C/C++ compiler, clangd/clang tools, CMake,

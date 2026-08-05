@@ -2,6 +2,9 @@
 modify(mode="none" find='"Open Git GUI here"|"Open Git Bash here"' vis=vis.remove)
 modify(mode="none" find='Browse path with PeaZip' vis=vis.remove)
 modify(mode="multiple" find='"Open Git GUI here"|"Open Git Bash here"' vis=vis.remove)
+modify(mode="none" find='"Open with Neovide"' vis=vis.remove)
+modify(mode="single" find='"Open with Neovide"' vis=vis.remove)
+modify(mode="multiple" find='"Open with Neovide"' vis=vis.remove)
 modify(mode="none" find='Code' vis=vis.remove)
 modify(mode="multiple" find='Code' vis=vis.remove)
 modify(mode="multiple"

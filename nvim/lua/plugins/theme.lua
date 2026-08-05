@@ -4,7 +4,8 @@ return {
     name = "catppuccin",
     opts = {
       flavour = "mocha",
-      transparent_background = true,
+      -- Neovide needs a Normal background color for normal_opacity to blend.
+      transparent_background = not vim.g.neovide,
       float = {
         transparent = false,
         solid = true,
@@ -13,6 +14,9 @@ return {
         inlay_hints = {
           background = false,
         },
+      },
+      styles = {
+        comments = {},
       },
     },
   },

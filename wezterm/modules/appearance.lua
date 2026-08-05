@@ -8,15 +8,22 @@ function M.apply_to_config(config)
 	config.font = wezterm.font_with_fallback({
 		"0xProto Nerd Font Mono",
 		"JetBrains Mono",
-		"Microsoft YaHei UI",
+		{ family = "Noto Serif SC", weight = "Bold" },
 		"Segoe UI Emoji",
 	})
 	-- 96 DPI 下 12pt 正好是 16px，避免图标落在非整数像素上发糊。
 	config.font_size = 12
+	-- Retro Tab Bar 共用正文的单元格高度；额外行高避免中文贴顶或被裁切。
+	config.line_height = 1.2
+	-- Match Neovide's full hinting and horizontal RGB subpixel antialiasing.
+	config.freetype_load_target = "HorizontalLcd"
+	config.freetype_render_target = "HorizontalLcd"
 
 	-- 匹配当前 75Hz 显示器。
 	config.max_fps = 75
 	config.animation_fps = 75
+
+	config.front_end = "OpenGL"
 
 	-- 不喜欢连字时取消下面代码的注释。
 	-- config.harfbuzz_features = {

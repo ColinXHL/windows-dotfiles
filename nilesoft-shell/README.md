@@ -4,10 +4,10 @@
 
 ## 功能
 
-- 按文件类型显示 Code、Neovim、记事本、打印和 PeaZip 操作。
+- 按文件类型显示 Code、Neovide、记事本、打印和 PeaZip 操作。
 - 保留 Windows 原生“打开”和“打开方式”，不修改默认文件关联。
 - 为压缩文件提供 PeaZip“智能解压到此处”。
-- 为文件夹提供终端、Code、Neovim 和 PeaZip 一级入口；Neovim 入口要求 Neovim 与 WezTerm 均存在。
+- 为文件夹提供终端、Code、Neovide 和 PeaZip 一级入口。
 - 整理桌面及文件夹空白处菜单，支持 Everything 缺失时稳定降级。
 - 清理 Git、网盘、WPS 等不需要的第三方菜单项。
 - 提供中文任务栏空白处菜单，包括任务管理器、显示桌面、窗口排列和系统设置。
@@ -24,8 +24,7 @@
 | 应用 | 默认路径 |
 | --- | --- |
 | Visual Studio Code | `%LocalAppData%\Programs\Microsoft VS Code\Code.exe` |
-| Neovim | `%ProgramFiles%\Neovim\bin\nvim.exe` |
-| WezTerm | `%ProgramFiles%\WezTerm\wezterm-gui.exe` |
+| Neovide | `%ProgramFiles%\Neovide\neovide.exe` |
 | Everything | `%ProgramFiles%\Everything\Everything.exe` |
 | PeaZip | `%ProgramFiles%\PeaZip\PEAZIP.EXE` |
 
@@ -54,7 +53,7 @@ C:\Program Files\Nilesoft Shell\shell.log
 ```text
 打开
 通过 Code 打开
-通过 Neovim 打开
+通过 Neovide 打开
 在记事本中编辑
 打开方式
 ----------------
@@ -66,8 +65,7 @@ C:\Program Files\Nilesoft Shell\shell.log
 ### 文件夹
 
 文件夹一级菜单包含原生“打开”和“在终端中打开”；根据相应可执行文件
-是否存在，还会显示“通过 Code 打开”、PeaZip，以及同时需要 Neovim 和
-WezTerm 的“通过 Neovim 打开”。其余一级项目包括剪切、复制、复制文件
+是否存在，还会显示“通过 Code 打开”、PeaZip 和“通过 Neovide 打开”。其余一级项目包括剪切、复制、复制文件
 地址、删除、重命名、“更多操作”和“属性”。
 
 ### 任务栏空白处
@@ -93,7 +91,7 @@ WezTerm 的“通过 Neovim 打开”。其余一级项目包括剪切、复制�
 | `imports/customize.nss` | 文件和文件夹菜单整理 |
 | `imports/background.nss` | 桌面与文件夹空白处菜单 |
 | `imports/code.nss` | VS Code 操作 |
-| `imports/nvim.nss` | Neovim 操作 |
+| `imports/nvim.nss` | Neovide 操作 |
 | `imports/peazip.nss` | PeaZip 智能解压 |
 | `imports/taskbar.nss` | 任务栏空白处菜单 |
 
