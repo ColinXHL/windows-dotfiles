@@ -6,9 +6,9 @@ function M.apply_to_config(config)
 	local nf = wezterm.nerdfonts
 
 	config.font = wezterm.font_with_fallback({
-		"0xProto Nerd Font Mono",
-		"JetBrains Mono",
-		{ family = "Noto Serif SC", weight = "Bold" },
+		{ family = "JetBrainsMono Nerd Icons", weight = "Regular" },
+		{ family = "0xProto Nerd Font Mono", weight = "Regular" },
+		{ family = "Maple Mono Normal NF CN", weight = "Regular" },
 		"Segoe UI Emoji",
 	})
 	-- 96 DPI 下 12pt 正好是 16px，避免图标落在非整数像素上发糊。

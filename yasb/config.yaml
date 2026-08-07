@@ -60,6 +60,7 @@ bars:
           "amap_weather",
           "clock",
           "systray",
+          "control_center",
           "wifi",
           "disk",
           "power_menu"
@@ -275,3 +276,74 @@ widgets:
         direction: "down"
         offset_top: 6
         offset_left: 0
+  control_center:
+    type: "yasb.control_center.ControlCenterWidget"
+    options:
+      label: "<span>\U000f062e</span>"
+      tooltip: true
+      sections_order:
+        - "system_controls"
+        - "quick_actions"
+        - "sliders"
+        - "power"
+        - "media"
+      popup:
+        blur: true
+        alignment: "right"
+        direction: "down"
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "None"
+        offset_top: 6
+        offset_left: 0
+      sections:
+        system_controls:
+          show: true
+          profile_image_size: 28
+          power_icon: "\U000f0425"
+          lock_icon: "\U000f033e"
+          settings_icon: "\U000f0493"
+        quick_actions:
+          show: true
+          columns: 3
+          label_position: "default"
+          actions:
+            - { id: "toggle_dnd", label: "勿扰", icon: "\U000f009b" }
+            - { id: "toggle_mute", label: "静音", icon: "\U000f0581" }
+            - { id: "toggle_mic_mute", label: "麦克风", icon: "\U000f036d" }
+            - { id: "screenshot", label: "截图", icon: "\U000f0e51" }
+            - { id: "touch_keyboard", label: "触摸键盘", icon: "\U000f030c" }
+            - { id: "toggle_theme", label: "深色模式", icon: "\U000f050e" }
+        sliders:
+          show: true
+          brightness:
+            show_slider: true
+            icon: "\U000f00df"
+            show_source_selector: true
+            source_selector_icon: "\U000f0140"
+          volume:
+            show_slider: true
+            icon: "\U000f057e"
+            show_source_selector: true
+            source_selector_icon: "\U000f0140"
+          microphone:
+            show_slider: true
+            icon: "\U000f036c"
+            show_source_selector: true
+            source_selector_icon: "\U000f0140"
+        power:
+          show: true
+          power_plan_title: "电源计划"
+          power_mode_title: "电源模式"
+          button_menu_icon: "\U000f0140"
+        media:
+          show: true
+          thumbnail_size: 44
+          thumbnail_radius: 8
+          icons:
+            prev_track: "\U000f04ae"
+            next_track: "\U000f04ad"
+            play: "\U000f040a"
+            pause: "\U000f03e4"
+      callbacks:
+        on_left: "toggle_menu"

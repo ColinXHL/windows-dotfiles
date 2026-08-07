@@ -439,3 +439,241 @@ color: rgb(203, 166, 247);
     background-color: rgba(203, 166, 247, 0.20);
     border: 1px solid rgba(203, 166, 247, 0.24);
 }
+
+/***------------------------------      Control Center      ------------------------------***/
+
+.control-center-widget {
+    padding: 0 7px;
+}
+.control-center-widget .icon {
+    color: var(--mauve);
+    font-family: "JetBrainsMono Nerd Icons";
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.control-center-menu {
+    min-width: 360px;
+    background-color: rgba(24, 24, 37, 0.88);
+}
+.control-center-menu .section {
+    margin: 0;
+    padding: 14px 12px;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(205, 214, 244, 0.10);
+}
+.control-center-menu .section.system-controls {
+    padding: 12px 16px 4px 16px;
+    border-bottom: none;
+}
+.control-center-menu .section.sliders {
+    padding: 12px 16px;
+}
+.control-center-menu .section.power {
+    border-bottom: none;
+}
+.control-center-menu .section.system-controls .button,
+.control-center-menu .section.quick-actions .button .icon,
+.control-center-menu .section.sliders .slider .icon,
+.control-center-menu .section.sliders .slider .source-selector,
+.control-center-menu .section.power .button .icon,
+.control-center-menu .section.media .button {
+    font-family: "JetBrainsMono Nerd Icons";
+    font-weight: 400;
+}
+
+.control-center-menu .section.system-controls .button {
+    min-width: 32px;
+    max-width: 32px;
+    min-height: 32px;
+    max-height: 32px;
+    border-radius: 16px;
+    background-color: rgba(69, 71, 90, 0.72);
+    color: var(--text);
+    font-size: 14px;
+}
+.control-center-menu .section.system-controls .button:hover {
+    background-color: rgba(203, 166, 247, 0.22);
+}
+
+.control-center-menu .section.quick-actions .button {
+    margin: 0 4px;
+}
+.control-center-menu .section.quick-actions .button .icon {
+    min-height: 46px;
+    border: 1px solid rgba(205, 214, 244, 0.08);
+    border-radius: 8px;
+    background-color: rgba(69, 71, 90, 0.42);
+    color: var(--text);
+    font-size: 16px;
+}
+.control-center-menu .section.quick-actions .button .icon:hover {
+    border-color: rgba(203, 166, 247, 0.24);
+    background-color: rgba(203, 166, 247, 0.16);
+}
+.control-center-menu .section.quick-actions .button.active .icon {
+    border-color: var(--mauve);
+    background-color: var(--mauve);
+    color: var(--base);
+}
+.control-center-menu .section.quick-actions .button .title {
+    margin: 4px 0 6px 0;
+    padding: 0;
+    color: var(--subtext1);
+    font-family: "Noto Serif SC";
+    font-size: 11px;
+    font-weight: 600;
+}
+.control-center-menu .section.quick-actions .button.disabled,
+.control-center-menu .section.sliders .slider.disabled,
+.control-center-menu .section.media .button.disabled {
+    opacity: 0.45;
+}
+
+.control-center-menu .section.sliders .slider {
+    min-height: 34px;
+    margin: 0 4px;
+    border: none;
+    background-color: transparent;
+}
+.control-center-menu .section.sliders .slider .icon {
+    min-width: 32px;
+    color: var(--mauve);
+    font-size: 16px;
+}
+.control-center-menu .section.sliders .slider .value {
+    min-width: 34px;
+    color: var(--subtext1);
+    font-size: 11px;
+    font-weight: 600;
+}
+.control-center-menu .section.sliders .slider .source-selector {
+    width: 24px;
+    height: 24px;
+    margin-left: 4px;
+    border-radius: 6px;
+    background-color: transparent;
+    color: var(--overlay2);
+    font-size: 12px;
+}
+.control-center-menu .section.sliders .slider .source-selector:hover {
+    background-color: rgba(203, 166, 247, 0.16);
+    color: var(--mauve);
+}
+.control-center-menu .section.sliders .slider .slider-control::groove {
+    height: 4px;
+    border-radius: 2px;
+    background-color: var(--surface1);
+}
+.control-center-menu .section.sliders .slider .slider-control::sub-page {
+    border-radius: 2px;
+    background-color: var(--mauve);
+}
+.control-center-menu .section.sliders .slider .slider-control::handle {
+    width: 12px;
+    margin: -4px 0;
+    border-radius: 6px;
+    background-color: var(--text);
+}
+
+.control-center-menu .section.power .plan-name,
+.control-center-menu .section.power .mode-name {
+    min-height: 36px;
+    margin: 0 4px;
+    padding: 6px 10px;
+    border: 1px solid rgba(205, 214, 244, 0.08);
+    border-radius: 8px;
+    background-color: rgba(69, 71, 90, 0.42);
+}
+.control-center-menu .section.power .plan-name:hover,
+.control-center-menu .section.power .mode-name:hover {
+    border-color: rgba(203, 166, 247, 0.24);
+    background-color: rgba(203, 166, 247, 0.12);
+}
+.control-center-menu .section.power .button .title {
+    color: var(--overlay2);
+    font-size: 10px;
+    font-weight: 600;
+}
+.control-center-menu .section.power .button .subtext {
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 600;
+}
+.control-center-menu .section.power .button .icon {
+    color: var(--overlay2);
+    font-size: 13px;
+}
+
+.control-center-menu .section.media {
+    padding: 12px;
+    border-top: 1px solid rgba(205, 214, 244, 0.10);
+    border-bottom: none;
+    background-color: rgba(17, 17, 27, 0.32);
+}
+.control-center-menu .section.media .track-info {
+    padding-left: 8px;
+}
+.control-center-menu .section.media .title {
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 600;
+}
+.control-center-menu .section.media .subtext {
+    color: var(--overlay2);
+    font-size: 11px;
+    font-weight: 600;
+}
+.control-center-menu .section.media .button {
+    min-width: 30px;
+    max-width: 30px;
+    min-height: 30px;
+    max-height: 30px;
+    margin-left: 4px;
+    border-radius: 6px;
+    background-color: transparent;
+    color: var(--text);
+    font-size: 14px;
+}
+.control-center-menu .section.media .button:hover {
+    background-color: rgba(203, 166, 247, 0.16);
+}
+
+.control-center-menu .context-menu {
+    padding: 4px 0;
+    background-color: rgba(24, 24, 37, 0.94);
+    color: var(--text);
+    font-family: "0xProto Nerd Font Mono", "Noto Serif SC";
+    font-size: 11px;
+    font-weight: 600;
+}
+.control-center-menu .context-menu::item {
+    min-width: 120px;
+    margin: 2px 6px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    background-color: transparent;
+}
+.control-center-menu .context-menu::item:selected {
+    background-color: rgba(203, 166, 247, 0.18);
+    color: var(--text);
+}
+.control-center-menu .context-menu::separator {
+    height: 1px;
+    margin: 4px 8px;
+    background-color: var(--surface1);
+}
+.control-center-menu .context-menu::indicator:unchecked {
+    width: 4px;
+    height: 12px;
+    margin-left: 0;
+    background-color: transparent;
+    color: transparent;
+}
+.control-center-menu .context-menu::indicator:checked {
+    width: 4px;
+    height: 12px;
+    margin-left: 0;
+    border-radius: 2px;
+    background-color: var(--mauve);
+}

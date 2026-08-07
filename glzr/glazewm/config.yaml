@@ -190,7 +190,19 @@ window_rules:
 
   - commands: ['set-floating --centered']
     match:
-      - window_process: { regex: '(?i)^(explorer|SystemSettings|CalculatorApp|Taskmgr|ImageGlass)$' }
+      - window_process: { regex: '(?i)^(explorer|SystemSettings|CalculatorApp|Taskmgr|ImageGlass|BaiduNetdisk|FlClash)$' }
+      - window_process: { equals: 'Everything' }
+      - window_process: { equals: 'Flow.Launcher' }
+        window_title: { equals: 'Settings' }
+      - window_process: { equals: 'qbittorrent' }
+        window_title: { not_regex: '^qBittorrent' }
+      - window_process: { equals: 'ABDownloadManager' }
+        window_title: { not_equals: 'AB Download Manager' }
+      - window_process: { equals: 'rustdesk' }
+        window_class: { equals: 'FLUTTER_RUNNER_WIN32_WINDOW' }
+        window_title: { equals: 'RustDesk' }
+      - window_process: { equals: 'DingTalk' }
+        window_class: { equals: 'DingImgViewWnd' }
       - window_process: { equals: 'GameViewer' }
         window_title: { equals: '网易UU远程' }
     on: ['manage']

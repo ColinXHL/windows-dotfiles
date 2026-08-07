@@ -35,7 +35,7 @@ documented primary build and debug workflow uses the terminal.
 | Project | `<leader>/` | Search text across the project |
 | Project | `<leader>e` | Toggle the project explorer |
 | Project | `<leader>z` | Jump to a Zoxide directory |
-| Project | `<leader>,` | Pick an open buffer |
+| Project | `<leader>,` / `<leader>b` | Pick an open buffer, including the current one |
 | File | `<leader>y` | Open Yazi at the current file |
 | Buffer | `[b` / `]b` | Previous / next buffer |
 | Buffer | `<leader>bd` | Close the current buffer |
@@ -63,6 +63,7 @@ documented primary build and debug workflow uses the terminal.
 | Markdown | `<leader>cp` | Toggle browser preview |
 | LSP | `<leader>uh` | Toggle inlay hints |
 | Comment | `Ctrl+/` | Toggle comment for the current line or selection |
+| Neovide | `Ctrl+V` / `Ctrl+Shift+V` | Paste from the Windows clipboard |
 
 Vim's native `s`, `S`, `H`, and `L` behavior is preserved. Flash navigation,
 OpenCode integration, and DAP are intentionally disabled or omitted. On

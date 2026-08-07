@@ -67,14 +67,29 @@ $weztermWindows = @($workspaceWindows | Where-Object {
 
 $pairs = foreach ($neovide in $neovideWindows) {
     foreach ($wezterm in $weztermWindows) {
-        $gap = $wezterm.x - ($neovide.x + $neovide.width)
         $verticalOverlap = [Math]::Min($neovide.y + $neovide.height, $wezterm.y + $wezterm.height) -
             [Math]::Max($neovide.y, $wezterm.y)
-        if ($gap -ge 0 -and $gap -le 32 -and $verticalOverlap -gt 0) {
+        if ($verticalOverlap -le 0) {
+            continue
+        }
+
+        $gap = $wezterm.x - ($neovide.x + $neovide.width)
+        if ($gap -ge 0 -and $gap -le 32) {
             [PSCustomObject]@{
                 Neovide = $neovide
                 WezTerm = $wezterm
                 Gap = $gap
+                Side = "left"
+            }
+        }
+
+        $gap = $neovide.x - ($wezterm.x + $wezterm.width)
+        if ($gap -ge 0 -and $gap -le 32) {
+            [PSCustomObject]@{
+                Neovide = $neovide
+                WezTerm = $wezterm
+                Gap = $gap
+                Side = "right"
             }
         }
     }
@@ -88,7 +103,7 @@ if ($null -eq $pair) {
 }
 
 $compactDelta = [Math]::Max(0, $pair.Gap - 2)
-$currentDelta = [double]$pair.WezTerm.borderDelta.left.amount
+$currentDelta = [double]$pair.WezTerm.borderDelta.PSObject.Properties[$pair.Side].Value.amount
 $newDelta = if ([Math]::Abs($currentDelta - $compactDelta) -lt 0.1) { 0 } else { $compactDelta }
 
 Invoke-GlazeWm -Arguments @(
@@ -96,5 +111,5 @@ Invoke-GlazeWm -Arguments @(
     "--id",
     $pair.WezTerm.id,
     "adjust-borders",
-    "--left=$($newDelta)px"
+    "--$($pair.Side)=$($newDelta)px"
 ) | Out-Null

@@ -55,4 +55,10 @@ if vim.g.neovide then
   vim.g.neovide_floating_corner_radius = 0.12
   vim.g.neovide_floating_shadow = true
   vim.g.neovide_hide_mouse_when_typing = true
+
+  for _, lhs in ipairs({ "<C-v>", "<C-S-v>" }) do
+    vim.keymap.set("n", lhs, '"+p', { desc = "Paste from System Clipboard" })
+    vim.keymap.set("x", lhs, '"+P', { desc = "Paste from System Clipboard" })
+    vim.keymap.set({ "i", "c" }, lhs, "<C-r>+", { desc = "Paste from System Clipboard" })
+  end
 end
