@@ -13,6 +13,18 @@ function M.apply_to_config(config)
 
 	config.keys = {
 		{
+			key = "c",
+			mods = "CTRL|SHIFT",
+			action = act.CopyTo("Clipboard"),
+			desc = "复制到系统剪贴板",
+		},
+		{
+			key = "v",
+			mods = "CTRL|SHIFT",
+			action = act.PasteFrom("Clipboard"),
+			desc = "粘贴系统剪贴板",
+		},
+		{
 			key = "t",
 			mods = "CTRL|SHIFT",
 			action = act.SpawnTab("CurrentPaneDomain"),

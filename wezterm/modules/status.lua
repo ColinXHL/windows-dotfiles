@@ -57,12 +57,12 @@ end
 local function update_window_overrides(window, pane)
 	local process_path = pane:get_foreground_process_name() or ""
 	local process_name = (process_path:match("([^/\\]+)$") or ""):lower()
-	local active_app, has_process_info = find_active_app(pane)
+	local active_app = find_active_app(pane)
 	if active_app then
 		process_name = active_app
-	elseif not has_process_info then
+	else
 		local pane_title = (pane:get_title() or ""):lower()
-		if pane_title:find("opencode", 1, true) then
+		if pane_title:find("opencode", 1, true) or pane_title:match("^oc%s*|") then
 			process_name = "opencode"
 		elseif pane_title:find("nvim", 1, true) then
 			process_name = "nvim"

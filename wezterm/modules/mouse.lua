@@ -5,34 +5,37 @@ local M = {}
 local mouse_dragging = {}
 
 function M.apply_to_config(config)
+	local left_down = wezterm.action_callback(function(window, pane)
+		mouse_dragging[pane:pane_id()] = false
+		window:perform_action(act.SelectTextAtMouseCursor("Cell"), pane)
+	end)
+	local left_drag = wezterm.action_callback(function(window, pane)
+		mouse_dragging[pane:pane_id()] = true
+		window:perform_action(act.ExtendSelectionToMouseCursor("Cell"), pane)
+	end)
+	local left_up = wezterm.action_callback(function(window, pane)
+		local pane_id = pane:pane_id()
+		if not mouse_dragging[pane_id] then
+			window:perform_action(act.ClearSelection, pane)
+		end
+		mouse_dragging[pane_id] = nil
+	end)
 	config.mouse_bindings = {
-		-- 普通单击只定位；发生拖动时保留选区，等待右键复制。
+		-- 普通单击只定位；发生拖动时保留选区，等待键盘复制。
 		{
 			event = { Down = { streak = 1, button = "Left" } },
 			mods = "NONE",
-			action = wezterm.action_callback(function(window, pane)
-				mouse_dragging[pane:pane_id()] = false
-				window:perform_action(act.SelectTextAtMouseCursor("Cell"), pane)
-			end),
+			action = left_down,
 		},
 		{
 			event = { Drag = { streak = 1, button = "Left" } },
 			mods = "NONE",
-			action = wezterm.action_callback(function(window, pane)
-				mouse_dragging[pane:pane_id()] = true
-				window:perform_action(act.ExtendSelectionToMouseCursor("Cell"), pane)
-			end),
+			action = left_drag,
 		},
 		{
 			event = { Up = { streak = 1, button = "Left" } },
 			mods = "NONE",
-			action = wezterm.action_callback(function(window, pane)
-				local pane_id = pane:pane_id()
-				if not mouse_dragging[pane_id] then
-					window:perform_action(act.ClearSelection, pane)
-				end
-				mouse_dragging[pane_id] = nil
-			end),
+			action = left_up,
 		},
 
 		-- 双击、三击和块选择完成后保留选区。
@@ -61,7 +64,6 @@ function M.apply_to_config(config)
 			mods = "ALT|SHIFT",
 			action = act.Nop,
 		},
-
 		-- Ctrl+单击打开链接；吞掉 Down 事件，避免 TUI 只收到半次点击。
 		{
 			event = { Down = { streak = 1, button = "Left" } },
@@ -72,25 +74,6 @@ function M.apply_to_config(config)
 			event = { Up = { streak = 1, button = "Left" } },
 			mods = "CTRL",
 			action = act.OpenLinkAtMouseCursor,
-		},
-
-		-- 右键：有选区时复制并清除，否则粘贴系统剪贴板。
-		{
-			event = { Down = { streak = 1, button = "Right" } },
-			mods = "NONE",
-			action = wezterm.action_callback(function(window, pane)
-				if window:get_selection_text_for_pane(pane) ~= "" then
-					window:perform_action(act.CopyTo("Clipboard"), pane)
-					window:perform_action(act.ClearSelection, pane)
-				else
-					window:perform_action(act.PasteFrom("Clipboard"), pane)
-				end
-			end),
-		},
-		{
-			event = { Up = { streak = 1, button = "Right" } },
-			mods = "NONE",
-			action = act.Nop,
 		},
 	}
 end

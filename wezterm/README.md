@@ -119,6 +119,8 @@ Leader 为 `Ctrl+A`，超时为 1500ms。
 | `Leader+[` | 进入 Vim Copy Mode |
 | `Leader+1..9` | 切换到对应 Tab |
 | `Ctrl+Shift+T` | 新建 Tab |
+| `Ctrl+Shift+C` | 复制选区到系统剪贴板 |
+| `Ctrl+Shift+V` | 从系统剪贴板粘贴 |
 | `Ctrl+Shift+F` | 搜索终端历史，并使用当前选区作为初始查询 |
 | `Ctrl+Shift+P` | 打开命令面板 |
 | `Ctrl+Shift+R` | 重新加载配置 |
@@ -146,8 +148,6 @@ Copy Mode 使用 `/` 进入 Search Mode；返回 Copy Mode 后使用 `n/p` 切�
 | 双击 | 选择单词 |
 | 三击 | 选择整行 |
 | `Alt+左键拖动` | 块选择 |
-| 右键，有选区 | 复制并清除选区 |
-| 右键，无选区 | 粘贴系统剪贴板 |
 | `Ctrl+左键单击` | 打开鼠标下的链接 |
 
 未被覆盖的 WezTerm 默认鼠标绑定仍然有效，包括 `Shift+左键` 扩展选择、
